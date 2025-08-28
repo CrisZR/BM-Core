@@ -1,15 +1,13 @@
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path, include
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from .views import HomeView
 
-@login_required
-def home(_):
-    return HttpResponse("¡Estás logueado!<form type='POST' action='/accounts/logout'> <button>Salir</button>")
+def home(request):
+    return render(request,'inventory/dashboard.html')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("", lambda request: redirect("login/")),  # Redirige "/" a "/login/"
-    path("", home, name='home'),  # Incluye tus rutas de la app
+    path("", HomeView.as_view(), name="home"), 
     path("accounts/", include("accounts.urls"))
 ]

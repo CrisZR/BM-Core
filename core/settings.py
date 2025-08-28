@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.LoginRequiredMiddleware',  # Custom middleware to enforce login
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -114,7 +115,7 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'accounts:prueba'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'accounts:login'
 SESSION_COOKIE_AGE = 3600  # 1 hour in seconds
 
