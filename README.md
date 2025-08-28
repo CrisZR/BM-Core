@@ -1,0 +1,1 @@
+# BM-Core ![python](https://img.shields.io/badge/python-v3.13.3-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Static Badge](https://img.shields.io/badge/django-v3.13.3-3670A0?style=for-the-badge&logo=django&logoColor=%23ffffff&labelColor=%230C4B33&color=%23181D27)
