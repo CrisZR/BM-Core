@@ -1,0 +1,5 @@
+@import "bootstrap/scss/bootstrap";
+
+//* COMANDO NECESARIO
+// To compile SCSS to CSS, run the following command in your terminal:
+// npx sass --load-path=node_modules static/css/app.scss static/css/app.css --style=compressed --watch
