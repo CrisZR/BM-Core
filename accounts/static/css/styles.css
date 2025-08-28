@@ -1,0 +1,166 @@
+:root {
+    /* Brand */
+    --color-primary: #031DF6;
+    --color-primary-dark: #001D96;
+    --color-primary-alt: #3741A0;
+  
+    --color-secondary: #636474;
+    --color-secondary-dark: #33354B;
+    --color-secondary-alt: #7D809F;
+  
+    /* Text */
+    --color-text-primary: #2B2C33;
+    --color-text-secondary: #636474;
+    --color-text-disabled: #9E9E9E;
+    --color-text-inverse: #FFFFFF;
+  
+    /* States */
+    --color-success-bg: #E6F4EA;
+    --color-success: #3C754B;
+    --color-success-dark: #2E5939;
+  
+    --color-warning-bg: #FFF3E0;
+    --color-warning: #FF9800;
+    --color-warning-dark: #FB8C00;
+  
+    --color-danger-bg: #FDECEA;
+    --color-danger: #F50208;
+    --color-danger-dark: #C30006;
+  
+    --color-info-bg: #E3F2FD;
+    --color-info: #54CAF5;
+    --color-info-dark: #0288D1;
+  
+    /* Focus / Active */
+    --color-focus-primary: #5A6DF6;
+    --color-focus-warning: #FFB74D;
+    --color-focus-success: #66BB6A;
+    --color-active-primary: #001D96;
+  
+    /* Neutrals */
+    --neutral-50:  #FAFAFA;
+    --neutral-100: #F5F5F5;
+    --neutral-200: #EEEEEE;
+    --neutral-300: #E0E0E0;
+    --neutral-500: #9E9E9E;
+    --neutral-700: #616161;
+    --neutral-900: #212121;
+  
+    /* Backgrounds (Light by default) */
+    --bg-base: #F5F6FA;
+    --bg-card: #FFFFFF;
+    --bg-alt: #E5E9FF;
+    --bg-hover: #D6DEFF;
+    --bg-disabled: #ECEDEF;
+  }
+  
+  /* Dark mode override (usa data-theme o una clase .dark) */
+  :root[data-theme="dark"] {
+    --color-text-primary: #E0E0E0;
+    --color-text-secondary: #C2C3CC;
+    --color-text-disabled: #9E9E9E;
+    --color-text-inverse: #0A0D23;
+  
+    --bg-base: #0A0D23;
+    --bg-card: #1C1E2E;
+    --bg-alt: #243050;
+    --bg-hover: #001D96;
+    --bg-disabled: #2C2F45;
+  }
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--color-text-primary);
+}
+
+body {
+    min-height: 100vh;
+    background: hsla(228, 33%, 97%, 1);
+    background: linear-gradient(90deg, hsla(228, 33%, 97%, 1) 10%, hsla(228, 100%, 92%, 1) 50%, hsla(225, 44%, 96%, 1) 90%);
+    background: -moz-linear-gradient(90deg, hsla(228, 33%, 97%, 1) 10%, hsla(228, 100%, 92%, 1) 50%, hsla(225, 44%, 96%, 1) 90%);
+    background: -webkit-linear-gradient(90deg, hsla(228, 33%, 97%, 1) 10%, hsla(228, 100%, 92%, 1) 50%, hsla(225, 44%, 96%, 1) 90%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#f5f6fa", endColorstr="#d6deff", GradientType=1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    border: 1px solid var(--neutral-500);
+    border-radius: 8px;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.title-login {
+    margin-bottom: 15%;
+}
+
+input {
+    font-size: 17px;
+    padding: 10px;
+    border: 1px solid var(--neutral-500);
+    border-radius: 4px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin-bottom: 1rem;
+}
+
+label {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.btn-midnight {
+    font-size: 17px;
+    cursor: pointer;
+    background-color: #515678;
+    color: var(--color-text-inverse);
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    border-color: #515678;
+}
+
+  .btn-midnight:hover {
+    color: #fff;
+    background-color: #32354A;   /* hover un poco más claro */
+    border-color: #32354A;
+  }
+  .btn-midnight:focus, .btn-midnight.focus,
+  .btn-check:focus + .btn-midnight {
+    color: #fff;
+    background-color: #32354A;
+    border-color: #32354A;
+    box-shadow: 0 0 0 .25rem rgba(10,13,35,.25); /* focus ring */
+  }
+  .btn-check:checked + .btn-midnight,
+  .btn-check:active + .btn-midnight,
+  .btn-midnight:active, .btn-midnight.active,
+  .show > .btn-midnight.dropdown-toggle {
+    color: #fff;
+    background-color: #0A0D23;   /* active más oscuro */
+    border-color: #0A0D23;
+  }
+  .btn-midnight:disabled, .btn-midnight.disabled {
+    color: #fff;                 /* Bootstrap aplica opacity .65 */
+    background-color: #0A0D23;
+    border-color: #0A0D23;
+  }
