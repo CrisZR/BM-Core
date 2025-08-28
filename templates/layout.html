@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      {% block title %}
+        App
+      {% endblock %}
+    </title>
+    <style>
+      .link-button {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        color: #60a5fa;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      nav a {
+        margin-right: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Inicio</a>
+
+        {% if user.is_authenticated %}
+          <!-- Logout por POST (seguro) -->
+          <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="link-button">Salir</button>
+          </form>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">Entrar</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    {% if messages %}
+      <ul>
+        {% for m in messages %}
+          <li>{{ m }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+  </body>
+</html>
