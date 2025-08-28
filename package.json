@@ -1,0 +1,20 @@
+{
+  "name": "bm-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass:watch": "sass --load-path=node_modules static/css/app.scss static/css/app.css --watch",
+    "sass:build": "sass --load-path=node_modules static/css/app.scss static/css/app.css --style=compressed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  },
+  "devDependencies": {
+    "sass": "^1.91.0"
+  }
+}
