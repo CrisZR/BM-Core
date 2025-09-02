@@ -2,15 +2,25 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>BM-Core Dashboard</title>
-    <link rel="stylesheet" href="{% static '/css/app.css' %}">
-</head>
-<body>
-  <div class="container">
-    <h1>Hola mundo</h1>
-  </div>
-  {% block body %}{% endblock body %}
-</body>
+    <link rel="stylesheet" href="{% static '/css/app.css' %}" />
+  </head>
+  <body>
+    <div class="template">
+        <nav class="navi">
+            <h1 class="title-nav">BM-Core</h1>
+            <section class="section-menu">
+                <button class="btn-nav btn-nav-selected"><i class="fa-solid fa-chart-line"></i>Dashboard</button>
+                <button class="btn-nav"><i class="fa-solid fa-users"></i>Cuentas</button>
+                <button class="btn-nav"><i class="fa-solid fa-boxes-stacked"></i>Inventario</button>
+            </section>
+            <section class="nav-footer">
+                <i class="fa-solid fa-user"></i> User Name
+            </section>
+        </nav>
+    </div>
+    {% block body %} {% endblock body %}
+  </body>
 </html>
