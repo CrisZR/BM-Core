@@ -1,0 +1,34 @@
+@use "bootstrap/scss/bootstrap";
+
+// Estados con 3 niveles (fondo, texto/borde)
+$alert-bg-scale:    0; // desactiva escala automática
+$alert-border-scale:0;
+$alert-color-scale: 0;
+
+$alert-variant-success: (
+  "color":  bootstrap.$success,
+  "bg":     #E6F4EA,
+  "border": #2E5939
+);
+
+$alert-variant-warning: (
+  "color":  bootstrap.$warning,
+  "bg":     #FFF3E0,
+  "border": #FB8C00
+);
+
+$alert-variant-danger: (
+  "color":  bootstrap.$danger,
+  "bg":     #FDECEA,
+  "border": #C30006
+);
+
+$alert-variant-info: (
+  "color":  bootstrap.$info,
+  "bg":     #E3F2FD,
+  "border": #0288D1
+);
+
+// Focus primario visible (inputs/botones)
+$focus-ring-color: rgba(90,109,246,.35); // #5A6DF6 con alfa
+$btn-focus-width:  .2rem;
