@@ -1,0 +1,43 @@
+// Brand
+$primary:        #031DF6;
+$secondary:      #636474;
+$success:        #3C754B;
+$info:           #54CAF5;
+$warning:        #FF9800;
+$danger:         #F50208;
+
+// Grises (neutrales)
+$gray-50:  #FAFAFA;
+$gray-100: #F5F5F5;
+$gray-200: #EEEEEE;
+$gray-300: #E0E0E0;
+$gray-500: #9E9E9E;
+$gray-700: #616161;
+$gray-900: #212121;
+
+// Texto y fondos (modo claro por defecto)
+$body-bg:    #F5F6FA;
+$body-color: #2B2C33;
+
+// Mapa de colores del tema (útil para utilities y helpers)
+$theme-colors: (
+  "primary":   $primary,
+  "secondary": $secondary,
+  "success":   $success,
+  "info":      $info,
+  "warning":   $warning,
+  "danger":    $danger,
+  "light":     $gray-100,
+  "dark":      #1C1E2E
+);
+
+// Si quieres colores adicionales (badges/utilities):
+$theme-colors: map-merge(
+  $theme-colors, (
+    "primary-dark": #001D96,
+    "primary-alt":  #3741A0
+  )
+);
+
+// Opcional: radios, sombras, etc.
+$border-radius: .7rem;
