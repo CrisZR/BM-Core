@@ -6,20 +6,48 @@
     <meta charset="UTF-8" />
     <title>BM-Core Dashboard</title>
     <link rel="stylesheet" href="{% static '/css/app.css' %}" />
+    <script src="{% static '/js/sidebar.js' %}"></script>
   </head>
   <body>
     <div class="template">
-        <nav class="navi">
-            <h1 class="title-nav">BM-Core</h1>
-            <section class="section-menu">
-                <button class="btn-nav btn-nav-selected"><i class="fa-solid fa-chart-line"></i>Dashboard</button>
-                <button class="btn-nav"><i class="fa-solid fa-users"></i>Cuentas</button>
-                <button class="btn-nav"><i class="fa-solid fa-boxes-stacked"></i>Inventario</button>
-            </section>
-            <section class="nav-footer">
-                <i class="fa-solid fa-user"></i> User Name
-            </section>
-        </nav>
+      <nav class="navi">
+        <h1 class="title-nav">BM-Core</h1>
+
+        <ul class="menu">
+          <li>
+            <a href="" class="nav-link active">
+              <i class="fa-solid fa-chart-line"></i> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="/cuentas" class="nav-link">
+              <i class="fa-solid fa-users"></i> Cuentas
+            </a>
+          </li>
+          <li class="has-submenu">
+            <a href="#" class="nav-link submenu-toggle">
+              <i class="fa-solid fa-boxes-stacked"></i> Inventario
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li>
+                <a href="/inventario/op1" class="sub-link"
+                  ><i class="fa-solid fa-box"></i> Submenu option</a
+                >
+              </li>
+              <li>
+                <a href="/inventario/op2" class="sub-link"
+                  ><i class="fa-solid fa-dolly"></i> Submenu option 2</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <section class="nav-footer">
+          <i class="fa-solid fa-user"></i> User Name
+        </section>
+      </nav>
     </div>
     {% block body %} {% endblock body %}
   </body>
