@@ -1,26 +1,61 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>BM-Core Dashboard</title>
-    <link rel="stylesheet" href="{% static '/css/app.css' %}" />
-  </head>
-  <body>
-    <div class="template">
-        <nav class="navi">
-            <h1 class="title-nav">BM-Core</h1>
-            <section class="section-menu">
-                <button class="btn-nav btn-nav-selected"><i class="fa-solid fa-chart-line"></i>Dashboard</button>
-                <button class="btn-nav"><i class="fa-solid fa-users"></i>Cuentas</button>
-                <button class="btn-nav"><i class="fa-solid fa-boxes-stacked"></i>Inventario</button>
-            </section>
-            <section class="nav-footer">
-                <i class="fa-solid fa-user"></i> User Name
-            </section>
-        </nav>
-    </div>
-    {% block body %} {% endblock body %}
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>BM-Core Dashboard</title>
+        <link rel="stylesheet" href="{% static '/css/app.css' %}" />
+        <script src="{% static '/js/sidebar.js' %}"></script>
+    </head>
+    <body>
+        <div class="template">
+            <nav class="navi">
+                <h1 class="title-nav">BM-Core</h1>
+                <ul class="menu">
+                  {% for menu in menus %}
+                    <li class="{% if menu.children.all %}has-submenu{% endif %}">
+                      <a href="{% url menu.url %}" class="nav-link {% if request.resolver_match.url_name == menu.url %}active{% endif %}">
+                        <i class="fa-solid fa-{{ menu.icono }}"></i> {{ menu.nombre }}
+                        {% if menu.children.all %}
+                          <i class="fa-solid fa-chevron-right arrow"></i>
+                        {% endif %}
+                      </a>
+                      {% if menu.children.all %}
+                        <ul class="submenu">
+                          {% for sub in menu.children.all %}
+                            <li>
+                              <a href="{{% url msub.url %}" class="sub-link {% if request.path == sub.url %}active{% endif %}">
+                                <i class="fa-solid fa-{{ sub.icon }}"></i> {{ sub.nombre }}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+                <section class="nav-footer">
+                    <section class="user-info-container">
+                        <i class="fa-solid fa-user"></i> 
+                        <span class="user-name">
+                          {{ request.user.get_full_name|default:request.user.username }}
+                        </span>
+                        <span id="theme-toggle" class="theme-toggle" title="Cambiar tema">
+                          <i class="fa-solid fa-sun"></i>
+                        </span>
+                        <form action="{% url 'accounts:logout' %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit" class="logout-button" title="Cerrar sesión">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                          </button>
+                        </form>
+                    </section>
+                </section>
+            </nav>
+            <main class="content">
+              {% block body %}
+              {% endblock body %}
+            </main>
+        </div>
+    </body>
 </html>
