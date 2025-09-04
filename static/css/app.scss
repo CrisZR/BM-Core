@@ -6,23 +6,84 @@
 //* COMANDO NECESARIO
 // To compile SCSS to CSS, run the following command in your terminal:
 // npx sass --load-path=node_modules static/css/app.scss static/css/app.css --style=compressed --watch
+/* === THEMING TOKENS (CSS variables) === */
+/* Dark por defecto */
+
+:root {
+  /* Tus tokens base */
+  --c-body-bg: #0a0d23;
+  --c-nav-bg: #1c1e2e;
+
+  --c-text: #e0e0e0;
+  --c-text-muted: #c5c9e6;
+  --c-subtitle: #f5f6fa;
+  --c-active: #ffffff;
+
+  --c-hover-bg: #2c2f45;
+  --c-border: #2c2f45;
+
+  --c-sub-link: #9fa6ff;
+
+  /* Map a variables de Bootstrap (opcional pero útil) */
+  --bs-body-bg: var(--c-body-bg);
+  --bs-body-color: var(--c-text);
+  --bs-card-bg: var(--c-nav-bg);
+  --bs-border-color: var(--c-border);
+
+  --bs-primary: #031df6;
+  --bs-secondary: #636474;
+  --bs-success: #3c754b;
+  --bs-info: #54caf5;
+  --bs-warning: #ff9800;
+  --bs-danger: #f50208;
+
+  /* UI nativa (scrollbars, selects…) */
+  color-scheme: dark;
+}
+
+/* Light: aplica con <html class="light"> */
+html.light {
+  --c-body-bg: #f5f6fa;
+  --c-nav-bg: #ffffff;
+
+  --c-text: #2b2c33;
+  --c-text-muted: #636474;
+  --c-subtitle: #636474;
+  --c-active: #031df6;
+
+  --c-hover-bg: #e5e9ff;
+  --c-border: #e0e0e0;
+
+  --c-sub-link: #3741a0;
+
+  /* Mapea a Bootstrap automáticamente */
+  --bs-body-bg: var(--c-body-bg);
+  --bs-body-color: var(--c-text);
+  --bs-card-bg: var(--c-nav-bg);
+  --bs-border-color: var(--c-border);
+
+  color-scheme: light;
+}
+
+/* ===== TU UI (adaptada a tokens) ===== */
 
 body {
-  background-color: #0a0d23;
+  background-color: var(--c-body-bg);
+  color: var(--c-text);
 }
 
 .template {
   min-height: 100vh;
-  color: #fff;
   display: flex;
   gap: 1rem;
+  color: var(--c-text);
 }
 
 .navi {
   position: relative;
   min-height: 100vh;
   width: 20vw;
-  background-color: #1c1e2e;
+  background-color: var(--c-nav-bg);
   flex-shrink: 0;
 }
 
@@ -37,7 +98,7 @@ body {
 }
 
 .subtitle-nav {
-  color: #f5f6fa;
+  color: var(--c-subtitle);
   font-size: 0.9rem;
   margin: 0 0 0.5rem 1rem;
   font-weight: bold;
@@ -54,70 +115,75 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
+
   width: 100%;
   padding: 0.5rem 1rem;
-  color: #c5c9e6;
+
+  color: var(--c-text-muted);
   background: transparent;
   border: none;
   border-radius: 10px;
+
   text-align: left;
   cursor: pointer;
   text-decoration: none;
-
-  &:hover {
-    background-color: #2c2f45;
-  }
-
-  &.active {
-    font-weight: bold;
-    color: #fff;
-  }
-
-  .arrow {
-    margin-left: auto;
-    transition: transform 0.2s ease;
-  }
 }
 
-.has-submenu {
-  .submenu {
-    display: none;
-    flex-direction: column;
-    margin-left: 1rem;
-    border-left: 2px solid #2c2f45;
-    list-style: none;
-    padding: 0.5rem 1rem;
+.nav-link:hover,
+.submenu-toggle:hover {
+  background-color: var(--c-hover-bg);
+}
 
-    .sub-link {
-      display: block;
-      padding: 0.4rem 1rem;
-      color: #9fa6ff;
-      border-radius: 6px;
-      text-decoration: none;
+.nav-link.active,
+.submenu-toggle.active {
+  font-weight: bold;
+  color: var(--c-active);
+}
 
-      &:hover {
-        background-color: #2c2f45;
-        color: #fff;
-      }
-    }
-  }
+.nav-link .arrow,
+.submenu-toggle .arrow {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
 
-  &.open .submenu {
-    display: flex;
-  }
+.has-submenu .submenu {
+  display: none;
+  flex-direction: column;
 
-  &.open .arrow {
-    transform: rotate(90deg);
-  }
+  margin-left: 1rem;
+  border-left: 2px solid var(--c-border);
+
+  list-style: none;
+  padding: 0.5rem 1rem;
+}
+
+.has-submenu .submenu .sub-link {
+  display: block;
+  padding: 0.4rem 1rem;
+  color: var(--c-sub-link);
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.has-submenu .submenu .sub-link:hover {
+  background-color: var(--c-hover-bg);
+  color: var(--c-active);
+}
+
+.has-submenu.open .submenu {
+  display: flex;
+}
+
+.has-submenu.open .arrow {
+  transform: rotate(90deg);
 }
 
 .nav-footer {
   position: absolute;
   bottom: 0;
-  padding: 0.5rem 1rem;
   width: 100%;
-  border-top: 1px solid #2c2f45;
   padding: 1rem;
+  border-top: 1px solid var(--c-border);
 }
 
 .user-info-container {
@@ -131,19 +197,39 @@ body {
 .logout-button {
   background: none;
   border: none;
-  color: #c5c9e6;
+  color: var(--c-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0;
+}
 
-  &:hover {
-    color: #fff;
-  }
+.logout-button:hover {
+  color: var(--c-active);
 }
 
 .user-name {
   font-weight: bold;
   width: 100%;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  color: var(--c-text-muted);
+
+  &:hover {
+    color: var(--c-active);
+  }
+}
+
+html,
+body,
+.navi,
+.nav-link,
+.submenu-toggle,
+.submenu .sub-link,
+.content {
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
 }
