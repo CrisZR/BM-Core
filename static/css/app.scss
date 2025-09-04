@@ -125,4 +125,25 @@ body {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
+  justify-content: space-between;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #c5c9e6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.user-name {
+  font-weight: bold;
+  width: 100%;
 }
