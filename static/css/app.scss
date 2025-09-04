@@ -1,5 +1,23 @@
-@use "bootstrap/scss/bootstrap";
-@use "tokens";
+@use "tokens" as t;
+@use "bootstrap/scss/bootstrap" with (
+  $primary: t.$primary,
+  $secondary: t.$secondary,
+  $success: t.$success,
+  $info: t.$info,
+  $warning: t.$warning,
+  $danger: t.$danger,
+
+  $theme-colors: (
+    "primary": t.$primary,
+    "secondary": t.$secondary,
+    "success": t.$success,
+    "info": t.$info,
+    "warning": t.$warning,
+    "danger": t.$danger,
+    "light": t.$gray-100,
+    "dark": #1c1e2e,
+  )
+);
 @use "overrides";
 @use "@fortawesome/fontawesome-free/css/all.min.css";
 
