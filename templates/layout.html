@@ -23,9 +23,10 @@
         <ul class="menu">
           {% for menu in menus %}
           <li class="{% if menu.children.all %}has-submenu{% endif %}">
+            {% with current_url=request.resolver_match.namespaces|join:":"|add:":"|add:request.resolver_match.url_name %}
             <a
               href="{% url menu.url %}"
-              class="nav-link {% if request.resolver_match.url_name == menu.url %}active{% endif %}"
+              class="nav-link {% if current_url == menu.url %}active{% endif %}"
             >
               <i class="fa-solid fa-{{ menu.icono }}"></i>
               <span class="menu-name"> {{ menu.nombre }} </span>
@@ -33,7 +34,7 @@
               <i class="fa-solid fa-chevron-right arrow"></i>
               {% endif %}
             </a>
-            {% if menu.children.all %}
+            {% endwith %} {% if menu.children.all %}
             <ul class="submenu">
               {% for sub in menu.children.all %}
               <li>
