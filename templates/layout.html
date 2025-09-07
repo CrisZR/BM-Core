@@ -1,61 +1,100 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <title>BM-Core Dashboard</title>
-        <link rel="stylesheet" href="{% static '/css/app.css' %}" />
-        <script src="{% static '/js/sidebar.js' %}"></script>
-    </head>
-    <body>
-        <div class="template">
-            <nav class="navi">
-                <h1 class="title-nav">BM-Core</h1>
-                <ul class="menu">
-                  {% for menu in menus %}
-                    <li class="{% if menu.children.all %}has-submenu{% endif %}">
-                      <a href="{% url menu.url %}" class="nav-link {% if request.resolver_match.url_name == menu.url %}active{% endif %}">
-                        <i class="fa-solid fa-{{ menu.icono }}"></i> {{ menu.nombre }}
-                        {% if menu.children.all %}
-                          <i class="fa-solid fa-chevron-right arrow"></i>
-                        {% endif %}
-                      </a>
-                      {% if menu.children.all %}
-                        <ul class="submenu">
-                          {% for sub in menu.children.all %}
-                            <li>
-                              <a href="{{% url msub.url %}" class="sub-link {% if request.path == sub.url %}active{% endif %}">
-                                <i class="fa-solid fa-{{ sub.icon }}"></i> {{ sub.nombre }}
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
-                <section class="nav-footer">
-                    <section class="user-info-container">
-                        <i class="fa-solid fa-user"></i> 
-                        <span class="user-name">
-                          {{ request.user.get_full_name|default:request.user.username }}
-                        </span>
-                        <span id="theme-toggle" class="theme-toggle" title="Cambiar tema">
-                          <i class="fa-solid fa-sun"></i>
-                        </span>
-                        <form action="{% url 'accounts:logout' %}" method="post">
-                          {% csrf_token %}
-                          <button type="submit" class="logout-button" title="Cerrar sesión">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                          </button>
-                        </form>
-                    </section>
-                </section>
-            </nav>
-            <main class="content">
-              {% block body %}
-              {% endblock body %}
-            </main>
-        </div>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>BM-Core Dashboard</title>
+    <link rel="stylesheet" href="{% static '/css/app.css' %}" />
+    <script src="{% static '/js/sidebar.js' %}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script>
+      const djangoTheme = "{{ theme_preference|default:'' }}";
+      const urlToggleTheme = "{% url 'accounts:set_theme' %}";
+      const csrf_token = "{{ csrf_token }}";
+    </script>
+    <div class="template">
+      <nav class="navi">
+        <section class="header-nav">
+          <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo" />
+          <h1 class="title-nav">BM-Core</h1>
+        </section>
+        <ul class="menu">
+          {% for menu in menus %}
+          <li class="{% if menu.children.all %}has-submenu{% endif %}">
+            <a
+              href="{% url menu.url %}"
+              class="nav-link {% if request.resolver_match.url_name == menu.url %}active{% endif %}"
+            >
+              <i class="fa-solid fa-{{ menu.icono }}"></i>
+              <span class="menu-name"> {{ menu.nombre }} </span>
+              {% if menu.children.all %}
+              <i class="fa-solid fa-chevron-right arrow"></i>
+              {% endif %}
+            </a>
+            {% if menu.children.all %}
+            <ul class="submenu">
+              {% for sub in menu.children.all %}
+              <li>
+                <a
+                  href="{{% url msub.url %}"
+                  class="sub-link {% if request.path == sub.url %}active{% endif %}"
+                >
+                  <i class="fa-solid fa-{{ sub.icon }}"></i> {{ sub.nombre }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        <section class="nav-footer">
+          <section class="user-info-container">
+            <i class="fa-solid fa-circle-user"></i>
+            <span class="user-name">
+              {{ request.user.get_full_name|default:request.user.username }}
+            </span>
+            <span id="" class="" title="Ver Notificaciones">
+              <i class="fa-solid fa-bell"></i>
+            </span>
+            <span id="theme-toggle" class="theme-toggle" title="Cambiar tema">
+              <i class="fa-solid fa-circle-half-stroke"></i>
+            </span>
+            <form action="{% url 'accounts:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="logout-button" title="Cerrar sesión">
+                <i class="fa-solid fa-right-from-bracket"></i>
+              </button>
+            </form>
+          </section>
+        </section>
+      </nav>
+      <div class="navi-header-mobile">
+        <h1 class="title-nav-mobile">BM-Core</h1>
+        <section class="info-user-mobile">
+          <span id="theme-toggle" class="theme-toggle" title="Cambiar tema">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+          </span>
+          <i class="fa-solid fa-gear"></i>
+        </section>
+      </div>
+      <main class="content">{% block body %} {% endblock body %}</main>
+      <div class="navi-options-mobile">
+        <section class="btn-nav-mobile">
+          <i class="fa-solid fa-home"></i>
+        </section>
+        <section class="btn-nav-mobile">
+          <i class="fa-solid fa-bars"></i>
+        </section>
+        <section class="btn-nav-mobile">
+          <i class="fa-solid fa-bell"></i>
+        </section>
+        <section class="btn-nav-mobile">
+          <i class="fa-solid fa-circle-user"></i>
+        </section>
+      </div>
+    </div>
+  </body>
 </html>

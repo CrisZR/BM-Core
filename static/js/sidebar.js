@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem("theme");
+
   document.querySelectorAll(".submenu-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const parent = btn.closest(".has-submenu");
@@ -6,16 +9,27 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.setAttribute("aria-expanded", isOpen);
     });
   });
-  const themeToggle = document.getElementById("theme-toggle");
-  themeToggle.addEventListener("click", () => {
-    const currentTheme = document.documentElement.classList.contains("light");
-    const newTheme = currentTheme === "light" ? "" : "light";
-    document.documentElement.classList.add(newTheme);
-    document.documentElement.classList.remove(currentTheme ? "light" : "");
-    localStorage.setItem("theme", newTheme);
-    themeToggle.innerHTML =
-      newTheme === "light"
-        ? '<i class="fa-solid fa-sun"></i>'
-        : '<i class="fa-solid fa-moon"></i>';
+
+  let theme = djangoTheme || savedTheme;
+  root.classList.add(theme);
+
+  const themeToggleButtons = document.querySelectorAll(".theme-toggle");
+  themeToggleButtons.forEach((themeToggle) => {
+    themeToggle.addEventListener("click", () => {
+      root.classList.toggle("light");
+      const currentTheme = root.classList.contains("light");
+
+      currentTheme ? (theme = "light") : (theme = "dark");
+      localStorage.setItem("theme", theme);
+      root.classList.add(theme);
+      fetch(urlToggleTheme, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrf_token,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "theme=" + theme,
+      });
+    });
   });
 });

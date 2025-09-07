@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "livereload",
+    "home",
     "navigation",
     "inventory",
     "accounts",
@@ -68,7 +69,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "navigation.context_processors.menu_context"
+                "navigation.context_processors.menu_context",
+                "accounts.context_processors.theme_context"
             ],
         },
     },
@@ -119,7 +121,7 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "home:index"
 LOGOUT_REDIRECT_URL = "accounts:login"
 SESSION_COOKIE_AGE = 300
 
