@@ -19,13 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
       root.classList.toggle("light");
       const currentTheme = root.classList.contains("light");
 
-      if (currentTheme) {
-        localStorage.setItem("theme", "light");
-        theme = "light";
-      } else {
-        localStorage.setItem("theme", "dark");
-        theme = "dark";
-      }
+      currentTheme ? (theme = "light") : (theme = "dark");
+      localStorage.setItem("theme", theme);
       root.classList.add(theme);
       fetch(urlToggleTheme, {
         method: "POST",
