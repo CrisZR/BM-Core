@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "livereload",
+    "home",
     "navigation",
     "inventory",
     "accounts",
@@ -120,7 +121,7 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "home:index"
 LOGOUT_REDIRECT_URL = "accounts:login"
 SESSION_COOKIE_AGE = 300
 
