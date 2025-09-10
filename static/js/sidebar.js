@@ -2,14 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const root = document.documentElement;
   const savedTheme = localStorage.getItem("theme");
 
-  document.querySelectorAll(".submenu-toggle").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const parent = btn.closest(".has-submenu");
-      const isOpen = parent.classList.toggle("open");
-      btn.setAttribute("aria-expanded", isOpen);
-    });
-  });
-
   let theme = djangoTheme || savedTheme;
   root.classList.add(theme);
 
@@ -31,5 +23,16 @@ document.addEventListener("DOMContentLoaded", () => {
         body: "theme=" + theme,
       });
     });
+  });
+
+  document.body.addEventListener("htmx:afterSwap", (e) => {
+    document
+      .querySelectorAll(".nav-link")
+      .forEach((link) => link.classList.remove("active"));
+
+    let path = window.location.pathname;
+    console.log(path);
+    let activeLink = document.querySelector(`.nav-link[href="${path}"]`);
+    if (activeLink) return activeLink.classList.add("active");
   });
 });
