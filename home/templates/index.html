@@ -1,7 +1,4 @@
-{% extends 'templates/layout.html' %} {% block body %}
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">Plantilla de inicio</div>
-  </div>
-</div>
+{% extends "templates/layout.html" %}
+{% block body %}
+  {% include "index_partial.html" %}
 {% endblock body %}
