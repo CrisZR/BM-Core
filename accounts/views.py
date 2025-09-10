@@ -22,11 +22,10 @@ class SignInView(LoginView):
 class SignOutView(LogoutView):
     next_page = reverse_lazy('accounts:login')
 
-@login_required
 def prueba(request): 
-    return render(request, 'prueba.html')
+    template = 'pruebas_partial.html' if request.htmx else 'prueba.html'
+    return render(request, template)
 
-@login_required
 def set_theme(request):
     if request.method == "POST":
         theme = request.POST.get("theme")
