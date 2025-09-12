@@ -8,7 +8,6 @@ from accounts.models import UserProfile
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
 
-
 class SignInView(LoginView):
     form_class = LoginForm
     template_name = 'login.html'
@@ -37,6 +36,3 @@ def set_theme(request):
             profile.save()
             return JsonResponse({"status": "ok"})
     return JsonResponse({"status": "error"}, status=400)
-
-class SignOutView(LogoutView):
-    next_page = '/accounts/login/'
