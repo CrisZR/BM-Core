@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "navigation",
     "inventory",
     "accounts",
+    "categorias"
 ]
 
 MIDDLEWARE = [
