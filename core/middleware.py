@@ -2,6 +2,8 @@
 from django.shortcuts import redirect
 from django.conf import settings
 from django.urls import resolve
+from django.contrib.auth.views import LogoutView
+
 
 EXEMPT_URLS = [
     "accounts:login", 
@@ -22,3 +24,6 @@ class LoginRequiredMiddleware:
             return redirect(settings.LOGIN_URL)
 
         return self.get_response(request)
+    
+class SignOutView(LogoutView):
+    next_page = '/accounts/login/'

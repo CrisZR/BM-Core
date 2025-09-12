@@ -1,6 +1,7 @@
-# home/views.py
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
-class HomeView(LoginRequiredMixin, TemplateView):
+@method_decorator(login_required, name='dispatch')
+class HomeView(TemplateView):
     template_name = "index.html"
