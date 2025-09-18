@@ -4,6 +4,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>BM-Core Dashboard</title>
+    <meta name="description"
+          content="BM-Core Dashboard para gestión y administración." />
+    <meta name="keywords"
+          content="BM-Core, dashboard, administración, gestión, empresa" />
     <link rel="stylesheet" href="{% static '/css/app.css' %}" />
     <script src="{% static '/js/sidebar.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,51 +21,53 @@
     <div class="template">
       <nav class="navi">
         <section class="header-nav">
-          <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo" />
+          <img src="{% static 'img/logo.png' %}"
+               alt="Logo"
+               class="logo"
+               width="120"
+               height="40" />
           <h1 class="title-nav">BM-Core</h1>
         </section>
-        <ul class="menu">
+        <ul class="menu" hx-boost="true" hx-target="#content" hx-push-url="true">
           {% for menu in menus %}
-          <li class="{% if menu.children.all %}has-submenu{% endif %}">
-            <a
-              href="{% url menu.url %}"
-              class="nav-link {% if request.resolver_match.url_name == menu.url %}active{% endif %}"
-            >
-              <i class="fa-solid fa-{{ menu.icono }}"></i>
-              <span class="menu-name"> {{ menu.nombre }} </span>
-              {% if menu.children.all %}
-              <i class="fa-solid fa-chevron-right arrow"></i>
-              {% endif %}
-            </a>
             {% if menu.children.all %}
-            <ul class="submenu">
-              {% for sub in menu.children.all %}
               <li>
-                <a
-                  href="{{% url msub.url %}"
-                  class="sub-link {% if request.path == sub.url %}active{% endif %}"
-                >
-                  <i class="fa-solid fa-{{ sub.icon }}"></i> {{ sub.nombre }}
+                <details {% if menu.is_open %}open{% endif %}>
+                  <summary class="nav-link">
+                    <i class="fa-solid fa-{{ menu.icono }}"></i>
+                    {{ menu.nombre }}
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                  </summary>
+                  <ul class="submenu">
+                    {% for sub in menu.children.all %}
+                      <li>
+                        <a href="{% url sub.url %}"
+                           class="sub-link nav-link {% if current_url == sub.url %}active{% endif %}">
+                          <i class="fa-solid fa-{{ sub.icono }}"></i>
+                          {{ sub.nombre }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </details>
+              </li>
+            {% else %}
+              <li>
+                <a href="{% url menu.url %}"
+                   class="nav-link {% if current_url == menu.url %}active{% endif %}">
+                  <i class="fa-solid fa-{{ menu.icono }}"></i>
+                  {{ menu.nombre }}
                 </a>
               </li>
-              {% endfor %}
-            </ul>
             {% endif %}
-          </li>
           {% endfor %}
         </ul>
         <section class="nav-footer">
           <section class="user-info-container">
             <i class="fa-solid fa-circle-user"></i>
-            <span class="user-name">
-              {{ request.user.get_full_name|default:request.user.username }}
-            </span>
-            <span id="" class="" title="Ver Notificaciones">
-              <i class="fa-solid fa-bell"></i>
-            </span>
-            <span id="theme-toggle" class="theme-toggle" title="Cambiar tema">
-              <i class="fa-solid fa-circle-half-stroke"></i>
-            </span>
+            <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+            <span title="Ver Notificaciones"><i class="fa-solid fa-bell"></i></span>
+            <span id="theme-toggle" class="theme-toggle" title="Cambiar tema"><i class="fa-solid fa-circle-half-stroke"></i></span>
             <form action="{% url 'accounts:logout' %}" method="post">
               {% csrf_token %}
               <button type="submit" class="logout-button" title="Cerrar sesión">
@@ -74,13 +80,14 @@
       <div class="navi-header-mobile">
         <h1 class="title-nav-mobile">BM-Core</h1>
         <section class="info-user-mobile">
-          <span id="theme-toggle" class="theme-toggle" title="Cambiar tema">
-            <i class="fa-solid fa-circle-half-stroke"></i>
-          </span>
+          <span id="theme-toggle" class="theme-toggle" title="Cambiar tema"><i class="fa-solid fa-circle-half-stroke"></i></span>
           <i class="fa-solid fa-gear"></i>
         </section>
       </div>
-      <main class="content">{% block body %} {% endblock body %}</main>
+      <main id="content" class="content">
+        {% block body %}
+        {% endblock body %}
+      </main>
       <div class="navi-options-mobile">
         <section class="btn-nav-mobile">
           <i class="fa-solid fa-home"></i>

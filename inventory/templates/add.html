@@ -1,0 +1,40 @@
+{% extends "templates/layout.html" %}
+{% block body %}
+  <div class="container">
+    <h3 class="mb-3 col-12">Añadir Producto</h3>
+    <form action="" method="post">
+      {% csrf_token %}
+      <section class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.nombre.label_tag }}
+          {{ form.nombre }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.sku.label_tag }}
+          {{ form.sku }}
+        </div>
+        <div class="col-md-12 mb-3">
+          {{ form.descripcion.label_tag }}
+          {{ form.descripcion }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.cantidad.label_tag }}
+          {{ form.cantidad }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.precio.label_tag }}
+          {{ form.precio }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.categoria.label_tag }}
+          {{ form.categoria }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.stock_min.label_tag }}
+          {{ form.stock_min }}
+        </div>
+      </section>
+      <button type="submit" class="btn btn-primary">Añadir Producto</button>
+    </form>
+  </div>
+{% endblock body %}

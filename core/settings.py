@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "navigation",
     "inventory",
     "accounts",
+    "categorias"
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.LoginRequiredMiddleware",  # Custom middleware to enforce login
-    "livereload.middleware.LiveReloadScript",
+    "livereload.middleware.LiveReloadScript"
 ]
 
 ROOT_URLCONF = "core.urls"

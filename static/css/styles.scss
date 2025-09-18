@@ -1,0 +1,6 @@
+// Codigo dependiente de Bootstrap 5, etc.
+
+.form-control::placeholder {
+  color: var(--c-text-muted);
+  opacity: 1; /* Firefox */
+}
