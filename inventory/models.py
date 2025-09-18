@@ -58,6 +58,12 @@ class Producto(models.Model):
     blank=False,
     null=False
   )
+  descripcion = models.TextField(
+    verbose_name="Descripcion",
+    blank=True,
+    null=True,
+    max_length=255
+  )
   precio = models.DecimalField(
     verbose_name="Precio",
     max_digits=11,
