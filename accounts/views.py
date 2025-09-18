@@ -23,7 +23,7 @@ class SignOutView(LogoutView):
     next_page = reverse_lazy('accounts:login')
 
 def prueba(request): 
-    template = 'pruebas_partial.html' if request.htmx else 'prueba.html'
+    template = 'prueba.html'
     return render(request, template)
 
 def set_theme(request):

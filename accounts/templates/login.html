@@ -6,34 +6,34 @@
     <meta charset="utf-8" />
     <title>Bienvenido a BM-Core</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+          content="Inicia sesión en BM-Core, la plataforma de gestión empresarial." />
+    <meta name="keywords"
+          content="BM-Core, login, gestión empresarial, usuario, contraseña" />
     <link rel="stylesheet" href="{% static '/css/styles.css' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet" />
   </head>
   <body>
     <form method="post" novalidate>
       <div class="form">
         {% csrf_token %}
         {{ form.non_field_errors }}
-
         <div class="container-inputs">
           <h1 class="title-login">¡Bienvenido a BM-Core!</h1>
-
           <div class="form-group">
             <label for="{{ form.username.id_for_label }}">Usuario</label>
             {{ form.username }}
           </div>
-
           <div class="form-group">
             <label for="{{ form.password.id_for_label }}">Contraseña</label>
             {{ form.password }}
           </div>
-
           <div class="form-group">
             <label>{{ form.remember_me }} Recuérdame</label>
           </div>
-
           <div class="form-group">
             <button type="submit" class="btn-midnight">Iniciar Sesión</button>
           </div>

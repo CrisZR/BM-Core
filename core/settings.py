@@ -55,8 +55,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.LoginRequiredMiddleware",  # Custom middleware to enforce login
-    "livereload.middleware.LiveReloadScript",
-    "django_htmx.middleware.HtmxMiddleware"
+    "livereload.middleware.LiveReloadScript"
 ]
 
 ROOT_URLCONF = "core.urls"
