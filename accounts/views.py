@@ -8,6 +8,7 @@ from accounts.models import UserProfile
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
 
+
 class SignInView(LoginView):
     form_class = LoginForm
     template_name = 'login.html'
@@ -25,6 +26,10 @@ class SignOutView(LogoutView):
 def prueba(request): 
     template = 'prueba.html'
     return render(request, template)
+
+
+def reportes(request):
+    return render(request, 'accounts/templates/reportes.html')  
 
 def set_theme(request):
     if request.method == "POST":
