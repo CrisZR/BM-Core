@@ -47,4 +47,3 @@ class addProductForm(forms.Form):
       widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el stock mínimo del producto'})
     )
     
-    

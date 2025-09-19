@@ -107,3 +107,95 @@ class Producto(models.Model):
   def __str__(self):
     """Unicode representation of Producto."""
     return self.nombre
+
+class Inventario_Producto(models.Model):
+  """Model definition for Inventario_Productos."""
+
+  producto_id = models.ForeignKey(
+    Producto,
+    verbose_name="Producto",
+    on_delete=models.CASCADE
+  )
+  cantidad = models.IntegerField(
+    verbose_name="Cantidad",
+    validators=[MinValueValidator(0)]
+  )
+  creado = models.DateTimeField(
+    verbose_name="Fecha de Creacion",
+    auto_now_add=True
+  )
+  creado_por = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    related_name="inventarios_creados",
+    verbose_name="Creado por"
+  )
+  modificado = models.DateTimeField(
+    verbose_name="Fecha de Modificado",
+    auto_now=True
+  )
+  modificado_por = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    related_name="inventarios_modificados",
+    verbose_name="Modificado Por"
+  )
+
+  class Meta:
+    """Meta definition for Inventario_Productos."""
+
+    verbose_name = 'Inventario_Productos'
+    verbose_name_plural = 'Inventario_Productos'
+
+  def __str__(self):
+    """Unicode representation of Inventario_Productos."""
+    return f"{self.producto_id.nombre} - {self.cantidad}"
+  
+class Registro_Inventario(models.Model):
+  """Model definition for Registro_Inventario."""
+
+  TIPOS_MOVIMIENTO = (
+    ('ENTRADA', 'Entrada'),
+    ('SALIDA', 'Salida'),
+  )
+
+  inventario_producto_id = models.ForeignKey(
+    Inventario_Producto,
+    verbose_name="Producto",
+    on_delete=models.CASCADE,
+    null=True, blank=True
+  )
+  tipo_movimiento = models.CharField(
+    verbose_name="Tipo de Movimiento",
+    max_length=10,
+    choices=TIPOS_MOVIMIENTO
+  )
+  cantidad_nueva = models.IntegerField(
+    verbose_name="Cantidad",
+    validators=[MinValueValidator(1)]
+  )
+  cantidad_anterior = models.IntegerField(
+    verbose_name="Cantidad Anterior",
+    validators=[MinValueValidator(0)],
+    null=True, blank=True
+  )
+  creado = models.DateTimeField(
+    verbose_name="Fecha del Movimiento",
+    auto_now_add=True
+  )
+  creado_por = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    related_name="registros_inventario_creados",
+    verbose_name="Creado por"
+  )
+
+  class Meta:
+    """Meta definition for Registro_Inventario."""
+
+    verbose_name = 'Registro_Inventario'
+    verbose_name_plural = 'Registro_Inventarios'
+
+  def __str__(self):
+    """Unicode representation of Registro_Inventario."""
+    return f"{self.tipo_movimiento} - {self.producto_id.nombre} ({self.cantidad})"
