@@ -28,9 +28,6 @@ def prueba(request):
     return render(request, template)
 
 
-def reportes(request):
-    return render(request, 'accounts/templates/reportes.html')  
-
 def set_theme(request):
     if request.method == "POST":
         theme = request.POST.get("theme")
