@@ -1,40 +1,62 @@
 {% extends "templates/layout.html" %}
+{% load static %}
 {% block body %}
+  <script src="{% static 'js/add.js' %}"></script>
   <div class="container">
     <h3 class="mb-3 col-12">Añadir Producto</h3>
-    <form action="" method="post">
-      {% csrf_token %}
-      <section class="row">
-        <div class="col-md-6 mb-3">
-          {{ form.nombre.label_tag }}
-          {{ form.nombre }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.sku.label_tag }}
-          {{ form.sku }}
-        </div>
-        <div class="col-md-12 mb-3">
-          {{ form.descripcion.label_tag }}
-          {{ form.descripcion }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.cantidad.label_tag }}
-          {{ form.cantidad }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.precio.label_tag }}
-          {{ form.precio }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.categoria.label_tag }}
-          {{ form.categoria }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.stock_min.label_tag }}
-          {{ form.stock_min }}
-        </div>
-      </section>
-      <button type="submit" class="btn btn-primary">Añadir Producto</button>
-    </form>
+    <div class="row">
+      <div class="col-12">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <section class="row">
+            <div class="col-md-4 mb-3">
+              {{ form.nombre.label_tag }}
+              {{ form.nombre }}
+            </div>
+            <div class="col-md-4 mb-3">
+              {{ form.sku.label_tag }}
+              {{ form.sku }}
+            </div>
+            <div class="col-md-4 mb-3">
+              {{ form.categoria.label_tag }}
+              {{ form.categoria }}
+            </div>
+            <div class="col-md-12 mb-3">
+              {{ form.descripcion.label_tag }}
+              {{ form.descripcion }}
+            </div>
+            <div class="col-md-4 mb-3">
+              {{ form.precio.label_tag }}
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
+                {{ form.precio }}
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              {{ form.stock_min.label_tag }}
+              {{ form.stock_min }}
+            </div>
+            <div class="col-md-4 mb3">
+              {{ form.imagen.label_tag }}
+              {{ form.imagen }}
+            </div>
+            <div class="col-md-4 mb-3">
+              {{ form.addCantidad }}
+              {{ form.addCantidad.label_tag }}
+            </div>
+            <div class="col-12 mb-3 d-none" id="cantidadField">
+              {{ form.cantidad.label_tag }}
+              {{ form.cantidad }}
+            </div>
+          </section>
+          <button type="submit" class="btn btn-primary w-100">Añadir Producto</button>
+        </form>
+      </div>
+    </div>
+    <div class="row justify-content-md-center mt-5">
+      <div class="col-4">
+        {% include "card_producto.html" with titulo="Producto" codigo="SKU" desc="Descripción" precio="Precio: " %}
+      </div>
+    </div>
   </div>
 {% endblock body %}

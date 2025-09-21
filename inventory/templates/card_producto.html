@@ -1,0 +1,23 @@
+{% load static %}
+<div class="card">
+  {% if image %}
+    <img src="{{ image }}" alt="{{ title }}" height="200" width="300">
+  {% else %}
+    <img id="imageCard"
+         src="{% static 'img/default.png' %}"
+         alt="Imagen por defecto"
+         width="100%">
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">
+      <span id="titleCard">{{ titulo }}</span>
+    </h5>
+    <p class="card-text">
+      <span id="codigoCard">{{ codigo }}</span>
+      <br>
+      <span id="textCard">{{ desc }}</span>
+      <br>
+      <span id="precioCard">{{ precio }}</span>
+    </p>
+  </div>
+</div>
