@@ -75,7 +75,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "navigation.context_processors.menu_context",
-                "accounts.context_processors.theme_context"
+                "accounts.context_processors.theme_context",
+                "accounts.context_processors.session_timeout",
             ],
         },
     },
@@ -131,7 +132,8 @@ USE_TZ = True
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "home:index"
 LOGOUT_REDIRECT_URL = "accounts:login"
-SESSION_COOKIE_AGE = 300
+SESSION_COOKIE_AGE = 60 * 15  # 15 minutes
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
