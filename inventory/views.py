@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Producto
+from .models import Producto, Inventario_Producto, Registro_Inventario
 
 from .forms import addProductForm
+
+import uuid
 
 # Create your views here.
 
 def add(request):
   if request.method == "POST":
-    form = addProductForm(request.POST)
+    form = addProductForm(request.POST, request.FILES)
     if form.is_valid():
       # Process the form data here
       sku = form.cleaned_data['sku']
@@ -18,8 +20,12 @@ def add(request):
       precio = form.cleaned_data['precio']
       cantidad = form.cleaned_data['cantidad']
       stock_min = form.cleaned_data['stock_min']
+      descripcion = form.cleaned_data['descripcion']
+      imagen = form.files.get('imagen')
       
-      Producto.objects.create(
+      sku = sku or f"SKU-{uuid.uuid4().hex[:8].upper()}"
+
+      producto = Producto.objects.create(
         sku=sku,
         nombre=nombre,
         categoria_id=categoria_id,
@@ -28,8 +34,26 @@ def add(request):
         stock_min=stock_min,
         creado_por=request.user,
         modificado_por=request.user,
-        activo=True
+        activo=True,
+        imagen=imagen
       )
+      
+      if cantidad > 0:
+        
+        inventario = Inventario_Producto.objects.create(
+          producto_id=producto,
+          cantidad=cantidad,
+          creado_por=request.user,
+          modificado_por=request.user
+        )
+        
+        Registro_Inventario.objects.create(
+          inventario_producto_id=inventario,
+          cantidad_nueva=cantidad,
+          cantidad_anterior=0,
+          tipo_movimiento='ALTA',
+          creado_por=request.user
+        )
       
       messages.success(request, "Producto añadido exitosamente.")
       return redirect('inventory:add')
