@@ -4,3 +4,41 @@
   color: var(--c-text-muted);
   opacity: 1; /* Firefox */
 }
+
+.form-control[type="file"] {
+  &::file-selector-button {
+    background-color: #2c2f45; // botón (usa tu token dark/nav si prefieres)
+    color: var(--bs-body-color);
+    border: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  &::file-selector-button:hover,
+  &:hover::file-selector-button {
+    background-color: darken($color: #2c2f45, $amount: 7.5) !important;
+    border-color: darken($color: #2c2f45, $amount: 10%) !important;
+  }
+}
+
+html.light {
+  .form-control[type="file"] {
+    &::file-selector-button {
+      background-color: #e8ecee; // botón claro (usa tu token light/nav si prefieres)
+      color: var(--bs-body-color);
+      border: none;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    &::file-selector-button:hover,
+    &:hover::file-selector-button {
+      background-color: darken($color: #e8ecee, $amount: 7.5) !important;
+      border-color: darken($color: #e8ecee, $amount: 10%) !important;
+    }
+  }
+}

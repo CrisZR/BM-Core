@@ -48,9 +48,12 @@
   --bs-body-color: var(--c-text);
   --bs-card-bg: var(--c-nav-bg);
   --bs-border-color: var(--c-border);
+  --bs-border-color-translucent: rgba(44, 47, 69, 0.5);
 
   --bs-primary: #031df6;
+  --bs-primary-hover: darken(#031df6, 7.5%);
   --bs-secondary: #636474;
+  --bs-secondary-bg: #2c2f45;
   --bs-success: #3c754b;
   --bs-info: #54caf5;
   --bs-warning: #ff9800;
@@ -75,11 +78,14 @@ html.light {
 
   --c-sub-link: #3741a0;
 
+  --bs-border-color-translucent: rgba(0, 0, 0, 0.5);
+
   /* Mapea a Bootstrap automáticamente */
   --bs-body-bg: var(--c-body-bg);
   --bs-body-color: var(--c-text);
   --bs-card-bg: var(--c-nav-bg);
   --bs-border-color: var(--c-border);
+  --bs-secondary-bg: #e8ecee;
 
   color-scheme: light;
 }
@@ -101,8 +107,9 @@ body {
 }
 
 .navi {
-  position: relative;
-  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   width: 20vw;
   background-color: var(--c-nav-bg);
   flex-shrink: 0;
