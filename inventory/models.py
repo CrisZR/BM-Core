@@ -97,6 +97,12 @@ class Producto(models.Model):
     default=True,
     verbose_name="Activo"
   )
+  imagen = models.ImageField(
+    upload_to='img/inventory/',
+    blank=True,
+    null=True,
+    verbose_name="Imagen"
+  )
 
   class Meta:
     """Meta definition for Producto."""
@@ -188,6 +194,12 @@ class Registro_Inventario(models.Model):
     on_delete=models.CASCADE,
     related_name="registros_inventario_creados",
     verbose_name="Creado por"
+  )
+  comentarios = models.TextField(
+    verbose_name="Comentarios",
+    blank=True,
+    null=True,
+    max_length=255
   )
 
   class Meta:
