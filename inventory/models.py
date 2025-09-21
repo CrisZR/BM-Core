@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator
+from django.templatetags.static import static
 
 from categorias.models import Categoria
 
@@ -103,7 +104,12 @@ class Producto(models.Model):
     null=True,
     verbose_name="Imagen"
   )
-
+  
+  def get_imagen_url(self):
+        if self.imagen and hasattr(self.imagen, "url"):
+            return self.imagen.url
+        return static("img/default.png")
+      
   class Meta:
     """Meta definition for Producto."""
 
