@@ -35,4 +35,26 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeLink = document.querySelector(`.nav-link[href="${path}"]`);
     if (activeLink) return activeLink.classList.add("active");
   });
+
+  let sessionTimer;
+
+  function startSessionTimer() {
+    clearTimeout(sessionTimer);
+
+    // Mostrar modal 1 minuto antes
+    sessionTimer = setTimeout(() => {
+      const modal = new bootstrap.Modal(
+        document.getElementById("sessionModal")
+      );
+      modal.show();
+    }, sessionAge);
+  }
+
+  // Reiniciar temporizador cada vez que el usuario interactúa
+  ["click", "keydown", "mousemove"].forEach((evt) =>
+    document.addEventListener(evt, startSessionTimer)
+  );
+
+  // Iniciar al cargar
+  startSessionTimer();
 });
