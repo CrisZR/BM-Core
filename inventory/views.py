@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Producto, Inventario_Producto, Registro_Inventario
 
@@ -61,5 +61,10 @@ def add(request):
     form = addProductForm()
   return render(request, "add.html", {"form": form})
 
-def altas(request):
-  return render(request, "altas.html")
+def productos(request):
+  productos = Producto.objects.all()
+  return render(request, "productos.html", {"productos": productos})
+
+def edit(request, pk):
+  producto = get_object_or_404(Producto, pk=pk)
+  return render(request, "edit.html", {"producto": producto})
