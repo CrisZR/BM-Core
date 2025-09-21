@@ -46,4 +46,13 @@ class addProductForm(forms.Form):
       label="Stock Mínimo",
       widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el stock mínimo del producto'})
     )
-    
+    imagen = forms.ImageField(
+      required=False,
+      label="Imagen",
+      widget=forms.ClearableFileInput(attrs={'class': 'form-control'})
+    )
+    addCantidad = forms.BooleanField(
+      required=False,
+      label="¿Deseas añadir existencias?",
+      widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
