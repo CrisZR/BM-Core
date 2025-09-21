@@ -49,6 +49,7 @@
   --bs-card-bg: var(--c-nav-bg);
   --bs-border-color: var(--c-border);
   --bs-border-color-translucent: rgba(44, 47, 69, 0.5);
+  --bs-tertiary-bg: #243050;
 
   --bs-primary: #031df6;
   --bs-primary-hover: darken(#031df6, 7.5%);
@@ -86,6 +87,7 @@ html.light {
   --bs-card-bg: var(--c-nav-bg);
   --bs-border-color: var(--c-border);
   --bs-secondary-bg: #e8ecee;
+  --bs-tertiary-bg: #e5e9ff;
 
   color-scheme: light;
 }
