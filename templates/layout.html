@@ -1,4 +1,5 @@
 {% load static %}
+{% load safe_url %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -41,7 +42,7 @@
                   <ul class="submenu">
                     {% for sub in menu.children.all %}
                       <li>
-                        <a href="{% url sub.url %}"
+                        <a href="{{ sub.url|safe_url }}"
                            class="sub-link nav-link {% if current_url == sub.url %}active{% endif %}">
                           <i class="fa-solid fa-{{ sub.icono }}"></i>
                           {{ sub.nombre }}
@@ -53,7 +54,7 @@
               </li>
             {% else %}
               <li>
-                <a href="{% url menu.url %}"
+                <a href="{{ menu.url|safe_url }}"
                    class="nav-link {% if current_url == menu.url %}active{% endif %}">
                   <i class="fa-solid fa-{{ menu.icono }}"></i>
                   {{ menu.nombre }}
