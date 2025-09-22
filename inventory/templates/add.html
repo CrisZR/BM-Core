@@ -3,7 +3,13 @@
 {% block body %}
   <script src="{% static 'js/add.js' %}"></script>
   <div class="container">
-    <h3 class="mb-3 col-12">Añadir Producto</h3>
+    <h3 class="mb-3 col-12">
+      {% if edit %}
+        Editar Producto
+      {% else %}
+        Añadir Producto
+      {% endif %}
+    </h3>
     <div class="row">
       <div class="col-12">
         <form method="post" enctype="multipart/form-data">
@@ -18,8 +24,8 @@
               {{ form.sku }}
             </div>
             <div class="col-md-4 mb-3">
-              {{ form.categoria.label_tag }}
-              {{ form.categoria }}
+              {{ form.categoria_id.label_tag }}
+              {{ form.categoria_id }}
             </div>
             <div class="col-md-12 mb-3">
               {{ form.descripcion.label_tag }}
@@ -40,7 +46,7 @@
               {{ form.imagen.label_tag }}
               {{ form.imagen }}
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3 {% if edit %}{{ 'd-none' }}{% endif %}">
               {{ form.addCantidad }}
               {{ form.addCantidad.label_tag }}
             </div>
@@ -49,13 +55,31 @@
               {{ form.cantidad }}
             </div>
           </section>
-          <button type="submit" class="btn btn-primary w-100">Añadir Producto</button>
+          {% if edit %}
+            <section class="row">
+              <div class="col-md-6 mb-3">
+                {{ form.cantidad_actual.label_tag }}
+                {{ form.cantidad_actual }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.cantidad_nueva.label_tag }}
+                {{ form.cantidad_nueva }}
+              </div>
+            </section>
+          {% endif %}
+          <button type="submit" class="btn btn-primary w-100">
+            {% if edit %}
+              Editar Producto
+            {% else %}
+              Añadir Producto
+            {% endif %}
+          </button>
         </form>
       </div>
     </div>
-    <div class="row justify-content-md-center mt-5">
-      <div class="col-4">
-        {% include "card_producto.html" with titulo="Producto" codigo="SKU" desc="Descripción" precio="Precio: " %}
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 col-md-4">
+        {% include "card_producto.html" with add=True titulo=producto.nombre|default:"Producto" codigo=producto.sku desc=producto.descripcion|default:"Descripción" precio=producto.precio imagen=producto.get_imagen_url %}
       </div>
     </div>
   </div>
