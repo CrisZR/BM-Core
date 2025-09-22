@@ -5,11 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const precioInput = document.getElementById("id_precio");
   const imagenInput = document.getElementById("id_imagen");
   const addCantidadInput = document.getElementById("id_addCantidad");
+  const cantidadInput = document.getElementById("id_cantidad");
 
   const cardTitle = document.getElementById("titleCard");
   const cardText = document.getElementById("textCard");
   const cardCodigo = document.getElementById("codigoCard");
   const cardPrecio = document.getElementById("precioCard");
+  const cardCantidad = document.getElementById("stockCard");
   const cantidadField = document.getElementById("cantidadField");
 
   precioInput.addEventListener("input", () => {
@@ -55,5 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
       cantidadField.classList.add("d-none");
       document.getElementById("id_cantidad").value = "";
     }
+  });
+
+  cantidadInput.addEventListener("input", () => {
+    const cantidad = parseInt(cantidadInput.value, 10);
+    cardCantidad.textContent = !isNaN(cantidad)
+      ? `Stock: ${cantidad}`
+      : "Sin stock asignado";
   });
 });
