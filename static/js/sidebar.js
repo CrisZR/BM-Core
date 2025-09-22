@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.documentElement;
   const savedTheme = localStorage.getItem("theme");
+  const footerMobile = document.getElementById("footerMobile");
+  const headerMobile = document.getElementById("headerMobile");
 
   let theme = djangoTheme || savedTheme;
   root.classList.add(theme);
@@ -57,4 +59,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Iniciar al cargar
   startSessionTimer();
+
+  let lastScrollTop = 0;
+  window.addEventListener("scroll", () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop + 5) {
+      footerMobile.style.transform = "translateY(100%)";
+      headerMobile.style.transform = "translateY(-100%)";
+    } else if (scrollTop < lastScrollTop - 5) {
+      footerMobile.style.transform = "translateY(0)";
+      headerMobile.style.transform = "translateY(0)";
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  });
 });
