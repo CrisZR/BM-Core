@@ -123,10 +123,11 @@ class Producto(models.Model):
 class Inventario_Producto(models.Model):
   """Model definition for Inventario_Productos."""
 
-  producto_id = models.ForeignKey(
+  producto_id = models.OneToOneField(
     Producto,
     verbose_name="Producto",
-    on_delete=models.CASCADE
+    on_delete=models.CASCADE,
+    related_name="inventario"
   )
   cantidad = models.IntegerField(
     verbose_name="Cantidad",
@@ -216,4 +217,4 @@ class Registro_Inventario(models.Model):
 
   def __str__(self):
     """Unicode representation of Registro_Inventario."""
-    return f"{self.tipo_movimiento} - {self.producto_id.nombre} ({self.cantidad})"
+    return f"{self.tipo_movimiento} - {self.inventario_producto.producto.nombre} ({self.cantidad_nueva})"
