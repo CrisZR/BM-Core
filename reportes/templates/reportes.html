@@ -1,0 +1,45 @@
+{% extends "templates/layout.html" %}
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Reporte de Inventario</h1>
+    <p>Resumen de movimientos:</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tipo de Movimiento</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in resumen %}
+            <tr>
+                <td>{{ item.tipo_movimiento }}</td>
+                <td>{{ item.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="mt-5">Detalles:</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movimiento in movimientos %}
+            <tr>
+                <td>{{ movimiento.inventario_producto_id }}</td>
+                <td>{{ movimiento.tipo_movimiento }}</td>
+                <td>{{ movimiento.cantidad_nueva }}</td>
+                <td>{{ movimiento.creado }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
