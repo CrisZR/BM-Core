@@ -30,16 +30,15 @@
   cursor: pointer;
 }
 
-.content-cards-productos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-}
-
 .link-card {
   text-decoration: none;
   color: inherit;
+}
+
+.img-card {
+  max-height: 181px !important;
+  width: 100% !important;
+  object-fit: contain !important;
 }
 
 html.light {
