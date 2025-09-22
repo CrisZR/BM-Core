@@ -1,12 +1,24 @@
 {% load static %}
 <div class="card card-producto">
+  {% if add %}
+    <div class="card-header mb-2 text-center">
+      <span>Vista Previa</span>
+    </div>
+  {% endif %}
   {% if imagen %}
-    <img src="{{ imagen }}" alt="{{ titulo }}" height="200" width="300">
+    <img id="imageCard"
+         src="{{ imagen }}"
+         class="rounded img-card"
+         alt="{{ titulo }}"
+         height="auto"
+         width="100%">
   {% else %}
     <img id="imageCard"
+         class="rounded img-card"
          src="{% static 'img/default.png' %}"
          alt="Imagen por defecto"
-         width="100%">
+         height="auto"
+         width="100%" />
   {% endif %}
   <div class="card-body">
     <h5 class="card-title">
@@ -18,6 +30,14 @@
       <span id="textCard">{{ desc }}</span>
       <br>
       <span id="precioCard">Precio: {{ precio }}</span>
+      {% if stock %}
+        <br>
+        <span id="stockCard">Stock: {{ stock }}</span>
+      {% else %}
+        <br>
+        <span id="stockCard">Sin stock asignado</span>
+      {% endif %}
     </p>
   </div>
+  {% if modificado %}<div class="card-footer">Ultima modificación: {{ modificado }}</div>{% endif %}
 </div>
