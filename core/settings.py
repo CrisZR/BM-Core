@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "livereload",
+    "crispy_forms",
     "home",
     "navigation",
     "inventory",
@@ -74,7 +75,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "navigation.context_processors.menu_context",
-                "accounts.context_processors.theme_context"
+                "accounts.context_processors.theme_context",
+                "accounts.context_processors.session_timeout",
             ],
         },
     },
@@ -130,7 +132,8 @@ USE_TZ = True
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "home:index"
 LOGOUT_REDIRECT_URL = "accounts:login"
-SESSION_COOKIE_AGE = 300
+SESSION_COOKIE_AGE = 60 * 15  # 15 minutes
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -143,3 +146,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

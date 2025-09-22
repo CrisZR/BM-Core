@@ -5,5 +5,6 @@ app_name="inventory"
 
 urlpatterns = [
   path('add/', add, name="add"),
-  path('altas/', altas, name="altas"),
+  path('productos/', productos, name="productos"),
+  path('productos/edit/<int:pk>/', edit, name="edit"),
 ]

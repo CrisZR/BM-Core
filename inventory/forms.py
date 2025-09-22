@@ -1,50 +1,58 @@
 from django import forms
-from .models import Categoria
+from .models import Categoria, Producto
+from django.forms.widgets import ClearableFileInput
 
-class addProductForm(forms.Form):
-    nombre = forms.CharField(
-      max_length=100,
-      required=True,
-      label="Nombre",
-      widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el nombre del producto'})
-    )
-    descripcion = forms.CharField(
-      max_length=255,
-      required=False,
-      label="Descripción",
-      widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Ingrese una descripción del producto'})
-    )
-    sku = forms.CharField(
-      max_length=100,
-      required=True,
-      label="Código",
-      widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el código del producto'})
-    )
-    categoria = forms.ModelChoiceField(
-      queryset=Categoria.objects.all(),
-      required=True,
-      label="Categoría",
-      empty_label="Seleccione una categoría",
-      widget=forms.Select(attrs={'class': 'form-select'})
-    )
-    precio = forms.DecimalField(
-      max_digits=11,
-      decimal_places=2,
-      required=True,
-      label="Precio",
-      widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el precio del producto'})
+class CustomClearableFileInput(ClearableFileInput):
+    template_name = "widgets/custom_clearable_file_input.html"
+
+class addProductForm(forms.ModelForm):
+    addCantidad = forms.BooleanField(
+        required=False,
+        label="¿Quieres añadir cantidad?",
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"})
     )
     cantidad = forms.IntegerField(
-      min_value=0,
-      required=True,
-      label="Cantidad",
-      widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la cantidad del producto'})
+        required=False,
+        label="Cantidad inicial",
+        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0"})
     )
-    stock_min = forms.IntegerField(
-      min_value=0,
-      required=True,
-      label="Stock Mínimo",
-      widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el stock mínimo del producto'})
+    cantidad_actual = forms.IntegerField(
+        required=False,
+        label="Cantidad actual",
+        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0", "readonly": "readonly"})
     )
-    
-    
+    cantidad_nueva = forms.IntegerField(
+        required=False,
+        label="Cantidad nueva",
+        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0"})
+    )
+    class Meta:
+        model = Producto
+        fields = [
+            "sku",
+            "nombre",
+            "categoria_id",
+            "descripcion",
+            "precio",
+            "stock_min",
+            "imagen",
+        ]
+        widgets = {
+            "sku": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Código SKU", "autocomplete": "off"}
+            ),
+            "nombre": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Nombre del producto"}
+            ),
+            "categoria_id": forms.Select(attrs={"class": "form-select"}),
+            "descripcion": forms.Textarea(
+                attrs={"class": "form-control", "rows": 3, "placeholder": "Descripción"}
+            ),
+            "precio": forms.NumberInput(
+                attrs={"class": "form-control", "step": "0.01", "placeholder": "0.00"}
+            ),
+            "stock_min": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "0"}
+            ),
+            "imagen": CustomClearableFileInput(attrs={"class": "form-control"}),
+        }

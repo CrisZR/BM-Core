@@ -1,4 +1,5 @@
 {% load static %}
+{% load safe_url %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -8,6 +9,7 @@
           content="BM-Core Dashboard para gestión y administración." />
     <meta name="keywords"
           content="BM-Core, dashboard, administración, gestión, empresa" />
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/app.css' %}" />
     <script src="{% static 'js/sidebar.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,6 +19,7 @@
       const djangoTheme = "{{ theme_preference|default:'' }}";
       const urlToggleTheme = "{% url 'accounts:set_theme' %}";
       const csrf_token = "{{ csrf_token }}";
+      const sessionAge = parseInt("{{ session_age|default_if_none:0 }}", 10) * 1000;
     </script>
     <div class="template">
       <nav class="navi">
@@ -41,7 +44,7 @@
                   <ul class="submenu">
                     {% for sub in menu.children.all %}
                       <li>
-                        <a href="{% url sub.url %}"
+                        <a href="{{ sub.url|safe_url }}"
                            class="sub-link nav-link {% if current_url == sub.url %}active{% endif %}">
                           <i class="fa-solid fa-{{ sub.icono }}"></i>
                           {{ sub.nombre }}
@@ -53,7 +56,7 @@
               </li>
             {% else %}
               <li>
-                <a href="{% url menu.url %}"
+                <a href="{{ menu.url|safe_url }}"
                    class="nav-link {% if current_url == menu.url %}active{% endif %}">
                   <i class="fa-solid fa-{{ menu.icono }}"></i>
                   {{ menu.nombre }}
@@ -77,7 +80,7 @@
           </section>
         </section>
       </nav>
-      <div class="navi-header-mobile">
+      <div id="headerMobile" class="navi-header-mobile">
         <h1 class="title-nav-mobile">BM-Core</h1>
         <section class="info-user-mobile">
           <span id="theme-toggle" class="theme-toggle" title="Cambiar tema"><i class="fa-solid fa-circle-half-stroke"></i></span>
@@ -88,7 +91,7 @@
         {% block body %}
         {% endblock body %}
       </main>
-      <div class="navi-options-mobile">
+      <div id="footerMobile" class="navi-options-mobile">
         <section class="btn-nav-mobile">
           <i class="fa-solid fa-home"></i>
         </section>
@@ -101,6 +104,19 @@
         <section class="btn-nav-mobile">
           <i class="fa-solid fa-circle-user"></i>
         </section>
+      </div>
+    </div>
+    <div class="modal fade" id="sessionModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Sesión expirada</h5>
+          </div>
+          <div class="modal-body">Se ha cerrado tu sesion por inactividad.</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="location.reload()">Continuar</button>
+          </div>
+        </div>
       </div>
     </div>
   </body>
