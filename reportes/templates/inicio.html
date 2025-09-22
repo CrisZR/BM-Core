@@ -1,17 +1,59 @@
 {% extends "templates/layout.html" %}
+{% load static %}
 {% block body %}
 <div class="container mt-5">
-    <h1 class="mb-4">Reportes</h1>
-    <p>Bienvenido a la sección de reportes. Aquí podrás visualizar y generar reportes del sistema.</p>
+    <h1 class="mb-4">Explorador de Reportes</h1>
+    <p>Selecciona el tipo de reporte y el rango de fechas para generar el reporte.</p>
+    
+    <!-- Formulario para filtros -->
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="tipo_reporte" class="form-label">Tipo de Reporte</label>
+                <select id="tipo_reporte" name="tipo_reporte" class="form-select">
+                    <option value="">Seleccione...</option>
+                    <option value="entrada" {% if request.GET.tipo_reporte == "entrada" %}selected{% endif %}>Entradas</option>
+                    <option value="salida" {% if request.GET.tipo_reporte == "salida" %}selected{% endif %}>Salidas</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
+                <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" value="{{ request.GET.fecha_inicio }}">
+            </div>
+            <div class="col-md-4">
+                <label for="fecha_fin" class="form-label">Fecha Fin</label>
+                <input type="date" id="fecha_fin" name="fecha_fin" class="form-control" value="{{ request.GET.fecha_fin }}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Generar Reporte</button>
+    </form>
+
+    {% if movimientos %}
     <div class="card mt-4">
         <div class="card-body">
-            <h5 class="card-title">Opciones de reportes</h5>
-            <ul>
-                <li>Reporte de ventas</li>
-                <li>Reporte de inventario</li>
-                <li>Reporte de usuarios</li>
-            </ul>
+            <h5 class="card-title">Resultados del Reporte</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movimiento in movimientos %}
+                    <tr>
+                        <td>{{ movimiento.inventario_producto_id }}</td>
+                        <td>{{ movimiento.tipo_movimiento }}</td>
+                        <td>{{ movimiento.cantidad_nueva }}</td>
+                        <td>{{ movimiento.creado }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
