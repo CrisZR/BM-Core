@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from django.templatetags.static import static
 
 from categorias.models import Categoria
+from negocio.models import Negocio
 
 # Create your models here.
 # class Supplier(models.Model):
@@ -152,6 +153,12 @@ class Inventario_Producto(models.Model):
     on_delete=models.CASCADE,
     related_name="inventarios_modificados",
     verbose_name="Modificado Por"
+  )
+  negocio = models.ForeignKey(
+    Negocio,
+    verbose_name="Negocio",
+    on_delete=models.CASCADE,
+    null=True, blank=True
   )
 
   class Meta:
