@@ -4,7 +4,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>BM-Core Dashboard</title>
+    <title>BM-Core - {% block title %}{% endblock title %}</title>
     <meta name="description"
           content="BM-Core Dashboard para gestión y administración." />
     <meta name="keywords"
@@ -88,6 +88,14 @@
         </section>
       </div>
       <main id="content" class="content">
+        {% if messages %}
+          {% for message in messages %}
+            <section class="alert alert-dismissible alert-{{ message.tags }} fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </section>
+          {% endfor %}
+        {% endif %}
         {% block body %}
         {% endblock body %}
       </main>
