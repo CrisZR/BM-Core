@@ -1,5 +1,12 @@
 {% extends "templates/layout.html" %}
 {% load static %}
+{% block title %}
+  {% if edit %}
+    Editar Producto
+  {% else %}
+    Añadir Producto
+  {% endif %}
+{% endblock title %}
 {% block body %}
   <script src="{% static 'js/add.js' %}"></script>
   <div class="container">
