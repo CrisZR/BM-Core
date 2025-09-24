@@ -48,8 +48,9 @@
   --bs-body-color: var(--c-text);
   --bs-card-bg: var(--c-nav-bg);
   --bs-border-color: var(--c-border);
-  --bs-border-color-translucent: rgba(44, 47, 69, 0.5);
+  --bs-border-color-translucent: var(--c-border);
   --bs-tertiary-bg: #243050;
+  --bs-card-color: var(--c-text);
 
   --bs-primary: #031df6;
   --bs-primary-hover: darken(#031df6, 7.5%);
@@ -62,6 +63,10 @@
 
   /* UI nativa (scrollbars, selects…) */
   color-scheme: dark;
+}
+
+html {
+  color: var(--c-text);
 }
 
 /* Light: aplica con <html class="light"> */
@@ -90,6 +95,7 @@ html.light {
   --bs-tertiary-bg: #e5e9ff;
 
   color-scheme: light;
+  color: var(--c-text);
 }
 
 /* ===== TU UI (adaptada a tokens) ===== */
@@ -104,7 +110,7 @@ body {
 .template {
   min-height: 100vh;
   display: flex;
-  gap: 1rem;
+  // gap: 1rem;
   color: var(--c-text);
 }
 
@@ -120,6 +126,7 @@ body {
 .content {
   flex: 1;
   padding: 2rem 1rem;
+  margin: 0 1rem;
 }
 
 .header-nav {
