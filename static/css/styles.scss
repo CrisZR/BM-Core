@@ -48,6 +48,10 @@
   }
 }
 
+.btn-danger {
+  color: #fff !important;
+}
+
 html.light {
   .form-control[type="file"] {
     &::file-selector-button {
