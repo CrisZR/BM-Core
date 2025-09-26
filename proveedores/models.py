@@ -13,7 +13,7 @@ class Proveedor(models.Model):
       max_length=100,
       blank=True,
       null=True,
-      verbose_name="Numero de cuenta"
+      verbose_name="Número de cuenta"
     )
     opinion_de_cumplimiento = models.FileField(
       upload_to='proveedores/opiniones_de_cumplimiento/',
@@ -33,11 +33,12 @@ class Proveedor(models.Model):
       null=False,
       verbose_name="RFC"
     )
-    regimen_fiscal = models.CharField(
-      max_length=100,
-      blank=False,
+    regimen_fiscal = models.ForeignKey(
+      'RegimenFiscal',
+      on_delete=models.PROTECT,
       null=False,
-      verbose_name="Regimen fiscal"
+      related_name="proveedores",
+      verbose_name="Régimen fiscal"
     )
     direccion = models.CharField(
       max_length=200,
@@ -105,7 +106,7 @@ class ContactoProveedor(models.Model):
       verbose_name="Nombre"
     )
     telefono = models.CharField(
-      max_length=15,
+      max_length=10,
       blank=True,
       null=True,
       verbose_name="Teléfono"
@@ -149,3 +150,27 @@ class ContactoProveedor(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.proveedor.razon_social}"
+      
+class RegimenFiscal(models.Model):
+    codigo = models.IntegerField(
+      unique=True,
+      blank=False,
+      null=False,
+      verbose_name="Código"
+    )
+    descripcion = models.CharField(
+      blank=True,
+      null=True,
+      verbose_name="Descripción"
+    )
+    activo = models.BooleanField(
+      default=True,
+      verbose_name="Activo"
+    )
+
+    class Meta:
+        verbose_name = "Régimen Fiscal"
+        verbose_name_plural = "Régimenes Fiscales"
+
+    def __str__(self):
+        return f"{self.codigo} - {self.descripcion}"
