@@ -116,6 +116,7 @@ class Producto(models.Model):
 
     verbose_name = 'Producto'
     verbose_name_plural = 'Productos'
+    ordering = ['modificado']
 
   def __str__(self):
     """Unicode representation of Producto."""
