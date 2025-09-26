@@ -1,8 +1,10 @@
 {% extends "templates/layout.html" %}
+{% load static %}
 {% block title %}
-  Proveedores
+Proveedores
 {% endblock title %}
 {% block body %}
+<script src="{% static 'js/add_edit.js' %}"></script>
   <div class="container">
     <h2 class="mb-3">Alta de Proveedor</h2>
     <form method="post">
@@ -47,9 +49,10 @@
       </section>
       <h4>Contactos</h4>
       {{ formset.management_form }}
-      <section class="row">
+      <section id="contContactos" class="row">
         {% for form in formset %}
-          <h5>Contacto #{{ forloop.counter }}</h5>
+        <div class="contacto-form row">
+          <h5 class="title-contacto">Contacto #{{ forloop.counter }}</h5>
           <div class="col-lg-4 col-12 mb-3">
             {{ form.nombre.label_tag }}
             {{ form.nombre }}
@@ -62,11 +65,12 @@
             {{ form.telefono.label_tag }}
             {{ form.telefono }}
           </div>
+        </div>
         {% endfor %}
       </section>
-      <section class="mb-3">
-        <button type="button" class="btn btn-secondary" id="addContacto">Añadir Contacto</button>
-        <button type="button" class="btn btn-danger" id="deleteContacto">Borrar Contacto</button>
+      <section class="mb-3 d-flex gap-2">
+        <button type="button" class="btn btn-secondary col-6" id="addContacto">Añadir Contacto</button>
+        <button type="button" class="btn btn-danger col-6" id="deleteContacto" disabled>Borrar Contacto</button>
       </section>
       <button type="submit" class="btn btn-primary w-100">Guardar</button>
     </form>
