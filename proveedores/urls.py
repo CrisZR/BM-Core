@@ -4,5 +4,6 @@ from .views import *
 app_name = "proveedores"
 
 urlpatterns = [
+    path('', index, name="index"),
     path('add/', add, name="add")
 ]
