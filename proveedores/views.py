@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import AddProveedorForm, ContactoProveedorFormSet
+from .models import Proveedor
 from django.db import transaction
 from django.contrib import messages
 
@@ -29,4 +30,10 @@ def add(request):
     else:
         form = AddProveedorForm()
         formset = ContactoProveedorFormSet()
-    return render(request, 'add_edit.html', {'form': form, 'formset': formset})
+    return render(request, 'proveedores/add_edit.html', {'form': form, 'formset': formset})
+
+def index(request):
+    proveedores = Proveedor.objects.all().values(
+        "id", "nombre", "razon_social", "rfc", "numero_de_cuenta", "regimen_fiscal", "codigo_postal"
+    )
+    return render(request, 'proveedores/index.html', {"proveedores": list(proveedores)})
