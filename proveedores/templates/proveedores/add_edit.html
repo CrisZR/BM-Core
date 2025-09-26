@@ -1,0 +1,78 @@
+{% extends "templates/layout.html" %}
+{% load static %}
+{% block title %}
+Proveedores
+{% endblock title %}
+{% block body %}
+<script src="{% static 'js/add_edit.js' %}"></script>
+  <div class="container">
+    <h2 class="mb-3">Alta de Proveedor</h2>
+    <form method="post">
+      {% csrf_token %}
+      <section class="row">
+        <div class="col-lg-6 col-12 mb-3">
+          {{ form.nombre.label_tag }}
+          {{ form.nombre }}
+        </div>
+        <div class="col-lg-6 col-12 mb-3">
+          {{ form.razon_social.label_tag }}
+          {{ form.razon_social }}
+        </div>
+        <div class="col-lg-6 col-12 mb-3">
+          {{ form.rfc.label_tag }}
+          {{ form.rfc }}
+        </div>
+        <div class="col-lg-6 col-12 mb-3">
+          {{ form.numero_de_cuenta.label_tag }}
+          {{ form.numero_de_cuenta }}
+        </div>
+        <div class="col-12 mb-3">
+          {{ form.regimen_fiscal.label_tag }}
+          {{ form.regimen_fiscal }}
+        </div>
+        <div class="col-lg-4 col-12 mb-3">
+          {{ form.codigo_postal.label_tag }}
+          {{ form.codigo_postal }}
+        </div>
+        <div class="col-lg-4 col-12 mb-3">
+          {{ form.caratula.label_tag }}
+          {{ form.caratula }}
+        </div>
+        <div class="col-lg-4 col-12 mb-3">
+          {{ form.opinion_de_cumplimiento.label_tag }}
+          {{ form.opinion_de_cumplimiento }}
+        </div>
+        <div class="col-12 mb-3">
+          {{ form.direccion.label_tag }}
+          {{ form.direccion }}
+        </div>
+      </section>
+      <h4>Contactos</h4>
+      {{ formset.management_form }}
+      <section id="contContactos" class="row">
+        {% for form in formset %}
+        <div class="contacto-form row">
+          <h5 class="title-contacto">Contacto #{{ forloop.counter }}</h5>
+          <div class="col-lg-4 col-12 mb-3">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+          </div>
+          <div class="col-lg-4 col-12 mb-3">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+          </div>
+          <div class="col-lg-4 col-12 mb-3">
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+          </div>
+        </div>
+        {% endfor %}
+      </section>
+      <section class="mb-3 d-flex gap-2">
+        <button type="button" class="btn btn-secondary col-6" id="addContacto">Añadir Contacto</button>
+        <button type="button" class="btn btn-danger col-6" id="deleteContacto" disabled>Borrar Contacto</button>
+      </section>
+      <button type="submit" class="btn btn-primary w-100">Guardar</button>
+    </form>
+  </div>
+{% endblock body %}
