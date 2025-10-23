@@ -1,5 +1,12 @@
 {% extends "templates/layout.html" %}
 {% load static %}
+{% block title %}
+  {% if edit %}
+    Editar Producto
+  {% else %}
+    Añadir Producto
+  {% endif %}
+{% endblock title %}
 {% block body %}
   <script src="{% static 'js/add.js' %}"></script>
   <div class="container">
@@ -15,17 +22,21 @@
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <section class="row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
               {{ form.nombre.label_tag }}
               {{ form.nombre }}
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
               {{ form.sku.label_tag }}
               {{ form.sku }}
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
               {{ form.categoria_id.label_tag }}
               {{ form.categoria_id }}
+            </div>
+            <div class="col-md-6 mb-3">
+              {{ form.medida.label_tag }}
+              {{ form.medida }}
             </div>
             <div class="col-md-12 mb-3">
               {{ form.descripcion.label_tag }}

@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.0",
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "frappe-datatable": "^1.19.0"
   },
   "devDependencies": {
     "sass": "^1.91.0"

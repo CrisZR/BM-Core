@@ -1,0 +1,15 @@
+{% extends "templates/layout.html" %}
+{% load static %}
+{% block title %}Proveedores{% endblock title %}
+{% block body %}
+    <script src="{% static 'js/proveedores/index.js' %}"></script>
+    <script>
+        const proveedores = {{ proveedores|safe }}
+    </script>
+    <div class="container">
+        <h2>Lista de Proveedores</h2>
+        <section id="tablaProveedores" class="">
+
+        </section>
+    </div>
+{% endblock body %}

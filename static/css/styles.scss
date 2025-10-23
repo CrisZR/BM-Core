@@ -41,6 +41,17 @@
   object-fit: contain !important;
 }
 
+.table {
+  color: var(--c-text) !important;
+  * {
+    color: var(--c-text) !important;
+  }
+}
+
+.btn-danger {
+  color: #fff !important;
+}
+
 html.light {
   .form-control[type="file"] {
     &::file-selector-button {

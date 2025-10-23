@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from django.templatetags.static import static
 
 from categorias.models import Categoria
+from negocio.models import Negocio
 
 # Create your models here.
 # class Supplier(models.Model):
@@ -39,182 +40,205 @@ from categorias.models import Categoria
 #     def __str__(self):
 #         return f"{self.movement_type} - {self.product.name} ({self.quantity})"
 
-class Producto(models.Model):
-  """Model definition for Producto."""
 
-  categoria_id = models.ForeignKey(
-    Categoria,
-    verbose_name="Categoria",
-    on_delete=models.CASCADE
-  )
-  sku = models.CharField(
-    verbose_name="Codigo",
-    max_length=100,
-    unique=True,
-    blank=True
-  )
-  nombre = models.CharField(
-    verbose_name="Nombre",
-    max_length=100,
-    blank=False,
-    null=False
-  )
-  descripcion = models.TextField(
-    verbose_name="Descripcion",
-    blank=True,
-    null=True,
-    max_length=255
-  )
-  precio = models.DecimalField(
-    verbose_name="Precio",
-    max_digits=11,
-    decimal_places=2,
-    validators=[MinValueValidator(0.01)]
-  )
-  stock_min = models.PositiveIntegerField(
-    verbose_name="Stock minimo"
-  )
-  creado = models.DateTimeField(
-    verbose_name="Fecha de Creacion",
-    auto_now_add=True
-  )
-  creado_por = models.ForeignKey(
-    settings.AUTH_USER_MODEL,
-    on_delete=models.CASCADE,
-    related_name="productos_creados",
-    verbose_name="Creado por"
-  )
-  modificado = models.DateTimeField(
-    verbose_name="Fecha de Modificado",
-    auto_now=True
-  )
-  modificado_por = models.ForeignKey(
-    settings.AUTH_USER_MODEL,
-    on_delete=models.CASCADE,
-    related_name="productos_modificados",
-    verbose_name="Modificado Por"
-  )
-  activo = models.BooleanField(
-    default=True,
-    verbose_name="Activo"
-  )
-  imagen = models.ImageField(
-    upload_to='img/inventory/',
-    blank=True,
-    null=True,
-    verbose_name="Imagen"
-  )
-  
-  def get_imagen_url(self):
+class Producto(models.Model):
+    """Model definition for Producto."""
+
+    categoria_id = models.ForeignKey(
+        Categoria, verbose_name="Categoria", on_delete=models.CASCADE
+    )
+    sku = models.CharField(
+        verbose_name="Codigo", max_length=100, unique=True, blank=True
+    )
+    nombre = models.CharField(
+        verbose_name="Nombre", max_length=100, blank=False, null=False
+    )
+    descripcion = models.TextField(
+        verbose_name="Descripcion", blank=True, null=True, max_length=255
+    )
+    precio = models.DecimalField(
+        verbose_name="Precio",
+        max_digits=11,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01)],
+    )
+    medida = models.ForeignKey(
+        "Medidas_Inventario",
+        verbose_name="Medida",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    stock_min = models.FloatField(verbose_name="Stock minimo", default=0)
+    creado = models.DateTimeField(verbose_name="Fecha de Creacion", auto_now_add=True)
+    creado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="productos_creados",
+        verbose_name="Creado por",
+    )
+    modificado = models.DateTimeField(verbose_name="Fecha de Modificado", auto_now=True)
+    modificado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="productos_modificados",
+        verbose_name="Modificado Por",
+    )
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+    imagen = models.ImageField(
+        upload_to="img/inventory/", blank=True, null=True, verbose_name="Imagen"
+    )
+
+    def get_imagen_url(self):
         if self.imagen and hasattr(self.imagen, "url"):
             return self.imagen.url
         return static("img/default.png")
-      
-  class Meta:
-    """Meta definition for Producto."""
 
-    verbose_name = 'Producto'
-    verbose_name_plural = 'Productos'
+    class Meta:
+        """Meta definition for Producto."""
 
-  def __str__(self):
-    """Unicode representation of Producto."""
-    return self.nombre
+        verbose_name = "Producto"
+        verbose_name_plural = "Productos"
+        ordering = ["modificado"]
+
+    def save(self, *args, **kwargs):
+        if self.medida and not self.medida.permite_decimales:
+            self.stock_min = int(self.stock_min)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        """Unicode representation of Producto."""
+        return self.nombre
+
 
 class Inventario_Producto(models.Model):
-  """Model definition for Inventario_Productos."""
+    """Model definition for Inventario_Productos."""
 
-  producto_id = models.OneToOneField(
-    Producto,
-    verbose_name="Producto",
-    on_delete=models.CASCADE,
-    related_name="inventario"
-  )
-  cantidad = models.IntegerField(
-    verbose_name="Cantidad",
-    validators=[MinValueValidator(0)]
-  )
-  creado = models.DateTimeField(
-    verbose_name="Fecha de Creacion",
-    auto_now_add=True
-  )
-  creado_por = models.ForeignKey(
-    settings.AUTH_USER_MODEL,
-    on_delete=models.CASCADE,
-    related_name="inventarios_creados",
-    verbose_name="Creado por"
-  )
-  modificado = models.DateTimeField(
-    verbose_name="Fecha de Modificado",
-    auto_now=True
-  )
-  modificado_por = models.ForeignKey(
-    settings.AUTH_USER_MODEL,
-    on_delete=models.CASCADE,
-    related_name="inventarios_modificados",
-    verbose_name="Modificado Por"
-  )
+    producto_id = models.OneToOneField(
+        Producto,
+        verbose_name="Producto",
+        on_delete=models.CASCADE,
+        related_name="inventario",
+    )
+    cantidad = models.FloatField(
+        verbose_name="Cantidad", validators=[MinValueValidator(0)]
+    )
+    creado = models.DateTimeField(verbose_name="Fecha de Creacion", auto_now_add=True)
+    creado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="inventarios_creados",
+        verbose_name="Creado por",
+    )
+    modificado = models.DateTimeField(verbose_name="Fecha de Modificado", auto_now=True)
+    modificado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="inventarios_modificados",
+        verbose_name="Modificado Por",
+    )
+    negocio = models.ForeignKey(
+        Negocio, verbose_name="Negocio", on_delete=models.CASCADE, null=True, blank=True
+    )
 
-  class Meta:
-    """Meta definition for Inventario_Productos."""
+    class Meta:
+        """Meta definition for Inventario_Productos."""
 
-    verbose_name = 'Inventario_Productos'
-    verbose_name_plural = 'Inventario_Productos'
+        verbose_name = "Inventario_Productos"
+        verbose_name_plural = "Inventario_Productos"
 
-  def __str__(self):
-    """Unicode representation of Inventario_Productos."""
-    return f"{self.producto_id.nombre} - {self.cantidad}"
-  
+    def save(self, *args, **kwargs):
+        medida = getattr(self.producto_id, "medida", None)
+        if medida and not medida.permite_decimales:
+            self.cantidad = int(self.cantidad)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        """Unicode representation of Inventario_Productos."""
+        return f"{self.producto_id.nombre} - {self.cantidad}"
+
+
 class Registro_Inventario(models.Model):
-  """Model definition for Registro_Inventario."""
+    """Model definition for Registro_Inventario."""
 
-  TIPOS_MOVIMIENTO = (
-    ('ENTRADA', 'Entrada'),
-    ('SALIDA', 'Salida'),
-  )
+    TIPOS_MOVIMIENTO = (
+        ("ENTRADA", "Entrada"),
+        ("SALIDA", "Salida"),
+    )
 
-  inventario_producto_id = models.ForeignKey(
-    Inventario_Producto,
-    verbose_name="Producto",
-    on_delete=models.CASCADE,
-    null=True, blank=True
-  )
-  tipo_movimiento = models.CharField(
-    verbose_name="Tipo de Movimiento",
-    max_length=10,
-    choices=TIPOS_MOVIMIENTO
-  )
-  cantidad_nueva = models.IntegerField(
-    verbose_name="Cantidad",
-    validators=[MinValueValidator(1)]
-  )
-  cantidad_anterior = models.IntegerField(
-    verbose_name="Cantidad Anterior",
-    validators=[MinValueValidator(0)],
-    null=True, blank=True
-  )
-  creado = models.DateTimeField(
-    verbose_name="Fecha del Movimiento",
-    auto_now_add=True
-  )
-  creado_por = models.ForeignKey(
-    settings.AUTH_USER_MODEL,
-    on_delete=models.CASCADE,
-    related_name="registros_inventario_creados",
-    verbose_name="Creado por"
-  )
-  comentarios = models.TextField(
-    verbose_name="Comentarios",
-    blank=True,
-    null=True,
-    max_length=255
-  )
+    inventario_producto_id = models.ForeignKey(
+        Inventario_Producto,
+        verbose_name="Producto",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    tipo_movimiento = models.CharField(
+        verbose_name="Tipo de Movimiento", max_length=10, choices=TIPOS_MOVIMIENTO
+    )
+    cantidad_nueva = models.FloatField(
+        verbose_name="Cantidad", validators=[MinValueValidator(1)]
+    )
+    cantidad_anterior = models.FloatField(
+        verbose_name="Cantidad Anterior",
+        validators=[MinValueValidator(0)],
+        null=True,
+        blank=True,
+    )
+    creado = models.DateTimeField(
+        verbose_name="Fecha del Movimiento", auto_now_add=True
+    )
+    creado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="registros_inventario_creados",
+        verbose_name="Creado por",
+    )
+    comentarios = models.TextField(
+        verbose_name="Comentarios", blank=True, null=True, max_length=255
+    )
 
-  class Meta:
-    """Meta definition for Registro_Inventario."""
+    class Meta:
+        """Meta definition for Registro_Inventario."""
 
-    verbose_name = 'Registro_Inventario'
-    verbose_name_plural = 'Registro_Inventarios'
+        verbose_name = "Registro_Inventario"
+        verbose_name_plural = "Registro_Inventarios"
 
-  def __str__(self):
-    """Unicode representation of Registro_Inventario."""
-    return f"{self.tipo_movimiento} - {self.inventario_producto.producto.nombre} ({self.cantidad_nueva})"
+    def save(self, *args, **kwargs):
+        producto = getattr(self.inventario_producto_id, "producto_id", None)
+        medida = getattr(producto, "medida", None)
+
+        if medida and not medida.permite_decimales:
+            self.cantidad_nueva = int(self.cantidad_nueva)
+            if self.cantidad_anterior is not None:
+                self.cantidad_anterior = int(self.cantidad_anterior)
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        """Unicode representation of Registro_Inventario."""
+        return f"{self.tipo_movimiento} - {self.inventario_producto.producto.nombre} ({self.cantidad_nueva})"
+
+
+class Medidas_Inventario(models.Model):
+    """Model definition for Medidas_Inventario."""
+
+    nombre = models.CharField(
+        verbose_name="Nombre de la Medida", max_length=50, unique=True
+    )
+    abreviatura = models.TextField(
+        verbose_name="Abreviatura", blank=True, null=True, max_length=255
+    )
+    permite_decimales = models.BooleanField(
+        default=False, verbose_name="Permite Decimales"
+    )
+
+    class Meta:
+        """Meta definition for Medidas_Inventario."""
+
+        verbose_name = "Medida de Inventario"
+        verbose_name_plural = "Medidas de Inventario"
+
+    def __str__(self):
+        """Unicode representation of Medidas_Inventario."""
+        return self.nombre

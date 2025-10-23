@@ -1,5 +1,6 @@
 {% extends "templates/layout.html" %}
 {% load static %}
+{% block title %}Reportes{% endblock title %}
 {% block body %}
 <div class="container mt-5">
     <h1 class="mb-4">Explorador de Reportes</h1>
@@ -44,7 +45,7 @@
                 <tbody>
                     {% for movimiento in movimientos %}
                     <tr>
-                        <td>{{ movimiento.inventario_producto_id }}</td>
+                        <td>{{ movimiento.inventario_producto_id.producto_id }}</td>
                         <td>{{ movimiento.tipo_movimiento }}</td>
                         <td>{{ movimiento.cantidad_nueva }}</td>
                         <td>{{ movimiento.creado }}</td>
@@ -56,4 +57,4 @@
     </div>
     {% endif %}
 </div>
-{% endblock %}
+{% endblock body %}
