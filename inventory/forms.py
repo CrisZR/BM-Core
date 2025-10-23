@@ -2,30 +2,35 @@ from django import forms
 from .models import Categoria, Producto
 from django.forms.widgets import ClearableFileInput
 
+
 class CustomClearableFileInput(ClearableFileInput):
     template_name = "widgets/custom_clearable_file_input.html"
+
 
 class addProductForm(forms.ModelForm):
     addCantidad = forms.BooleanField(
         required=False,
         label="¿Quieres añadir cantidad?",
-        widget=forms.CheckboxInput(attrs={"class": "form-check-input"})
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
     )
-    cantidad = forms.IntegerField(
+    cantidad = forms.FloatField(
         required=False,
         label="Cantidad inicial",
-        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0"})
+        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0"}),
     )
-    cantidad_actual = forms.IntegerField(
+    cantidad_actual = forms.FloatField(
         required=False,
         label="Cantidad actual",
-        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0", "readonly": "readonly"})
+        widget=forms.NumberInput(
+            attrs={"class": "form-control", "placeholder": "0", "readonly": "readonly"}
+        ),
     )
-    cantidad_nueva = forms.IntegerField(
+    cantidad_nueva = forms.FloatField(
         required=False,
         label="Cantidad nueva",
-        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0"})
+        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "0"}),
     )
+
     class Meta:
         model = Producto
         fields = [
@@ -36,10 +41,15 @@ class addProductForm(forms.ModelForm):
             "precio",
             "stock_min",
             "imagen",
+            "medida",
         ]
         widgets = {
             "sku": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Código SKU", "autocomplete": "off"}
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Código SKU",
+                    "autocomplete": "off",
+                }
             ),
             "nombre": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Nombre del producto"}
@@ -55,4 +65,10 @@ class addProductForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "0"}
             ),
             "imagen": CustomClearableFileInput(attrs={"class": "form-control"}),
+            "medida": forms.Select(attrs={"class": "form-select"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["categoria_id"].empty_label = "Selecciona una categoría"
+        self.fields["medida"].empty_label = "Selecciona una medida"
