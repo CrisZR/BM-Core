@@ -8,7 +8,7 @@
       {% for producto in productos %}
         <div class="col">
           <a class="link-card" href="{% url 'inventory:edit' producto.pk %}">
-            {% include "card_producto.html" with imagen=producto.get_imagen_url titulo=producto.nombre codigo=producto.sku desc=producto.descripcion precio=producto.precio stock=producto.inventario.cantidad modificado=producto.modificado %}
+            {% include "card_producto.html" with imagen=producto.get_imagen_url titulo=producto.nombre codigo=producto.sku desc=producto.descripcion precio=producto.precio stock=producto.inventario.cantidad modificado=producto.modificado medida=producto.medida %}
           </a>
         </div>
       {% endfor %}
