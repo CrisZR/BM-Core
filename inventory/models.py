@@ -242,3 +242,79 @@ class Medidas_Inventario(models.Model):
     def __str__(self):
         """Unicode representation of Medidas_Inventario."""
         return self.nombre
+
+
+class Negocio_Inventario(models.Model):
+    negocio = models.OneToOneField(
+        Negocio, verbose_name="Negocio", on_delete=models.CASCADE
+    )
+    cantidad = models.FloatField(
+        verbose_name="Cantidad en Inventario",
+        validators=[MinValueValidator(0)],
+        blank=False,
+        null=False,
+    )
+    creado = models.DateTimeField(verbose_name="Fecha de Creación", auto_now_add=True)
+    creado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="negocios_inventario_creados",
+        verbose_name="Creado por",
+    )
+    modificado = models.DateTimeField(
+        verbose_name="Fecha de Modificación", auto_now=True
+    )
+    modificado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="negocios_inventario_modificados",
+        verbose_name="Modificado Por",
+    )
+    activo = models.BooleanField(default=True, verbose_name="Inventario Activo")
+
+    class Meta:
+        verbose_name = "Negocio Inventario"
+        verbose_name_plural = "Negocios Inventario"
+
+    def __str__(self):
+        return f"Inventario de {self.negocio.nombre}"
+
+
+class Registro_Negocio_Inventario(models.Model):
+    negocio_inventario = models.ForeignKey(
+        Negocio_Inventario,
+        verbose_name="Negocio Inventario",
+        on_delete=models.CASCADE,
+        related_name="registros",
+    )
+    cantidad_nueva = models.FloatField(
+        verbose_name="Cantidad Nueva",
+        validators=[MinValueValidator(0)],
+        blank=False,
+        null=False,
+    )
+    cantidad_anterior = models.FloatField(
+        verbose_name="Cantidad Anterior",
+        validators=[MinValueValidator(0)],
+        blank=False,
+        null=False,
+    )
+    creado = models.DateTimeField(
+        verbose_name="Fecha del Movimiento", auto_now_add=True
+    )
+    creado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="registros_negocio_inventario_creados",
+        verbose_name="Creado por",
+    )
+    comentarios = models.TextField(
+        verbose_name="Comentarios", blank=True, null=True, max_length=255
+    )
+
+    class Meta:
+        verbose_name = "Registro Negocio Inventario"
+        verbose_name_plural = "Registros Negocio Inventario"
+
+    def __str__(self):
+        return f"Registro de {self.negocio_inventario.negocio.nombre} - {self.cantidad_nueva}"
