@@ -10,7 +10,10 @@ urlpatterns = [
     path("accounts/", include(("accounts.urls", "accounts"), namespace="accounts")),
     path("inventory/", include(("inventory.urls", "inventory"), namespace="inventory")),
     path("reportes/", include(("reportes.urls", "reportes"), namespace="reportes")),
-    path("proveedores/", include(("proveedores.urls", "proveedores"), namespace="proveedores")),
+    path(
+        "proveedores/",
+        include(("proveedores.urls", "proveedores"), namespace="proveedores"),
+    ),
 ]
 
 if settings.DEBUG:

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "livereload",
     "crispy_forms",
     "crispy_bootstrap5",
+    "corsheaders",
     "home",
     "navigation",
     "inventory",
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.LoginRequiredMiddleware",  # Custom middleware to enforce login
@@ -144,7 +146,16 @@ SESSION_SAVE_EVERY_REQUEST = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "frontend" / "dist",  # salida del build de Vite
+]
+
+TEMPLATES[0]["DIRS"] = [
+    BASE_DIR / "frontend" / "dist",
+]
+
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
@@ -157,3 +168,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
