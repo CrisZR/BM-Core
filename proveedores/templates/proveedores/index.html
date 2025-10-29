@@ -1,14 +1,45 @@
 {% extends "templates/layout.html" %}
 {% load static %}
-{% block title %}Proveedores{% endblock title %}
+{% block title %}
+    Proveedores
+{% endblock title %}
 {% block body %}
     <script src="{% static 'js/proveedores/index.js' %}"></script>
-    <script>
-        const proveedores = {{ proveedores|safe }}
-    </script>
+    <script>const proveedores = {{ proveedores|safe }}</script>
     <div class="container">
         <h2>Lista de Proveedores</h2>
+        <a class="btn btn-link" href="{% url 'proveedores:add' %}">Añadir Proveedor</a>
         <section id="tablaProveedores">
+            <table id="myTable" class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Razón Social</th>
+                        <th>RFC</th>
+                        <th>No. Cuenta</th>
+                        <th>Régimen Fiscal</th>
+                        <th>Código Postal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proveedor in proveedores %}
+                        <tr>
+                            <td>{{ proveedor.id }}</td>
+                            <td>{{ proveedor.nombre }}</td>
+                            <td>{{ proveedor.razon_social }}</td>
+                            <td>{{ proveedor.rfc }}</td>
+                            <td>{{ proveedor.numero_de_cuenta }}</td>
+                            <td>{{ proveedor.regimen_fiscal }}</td>
+                            <td>{{ proveedor.codigo_postal }}</td>
+                            <td>
+                                <a href="{% url 'proveedores:edit' proveedor.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
     </div>
 {% endblock body %}

@@ -42,8 +42,8 @@
 }
 
 .table {
-  color: var(--c-text) !important;
-  * {
+  td,
+  th {
     color: var(--c-text) !important;
   }
 }
