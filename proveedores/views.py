@@ -42,15 +42,7 @@ def add(request):
 
 
 def index(request):
-    proveedores = Proveedor.objects.all().values(
-        "id",
-        "nombre",
-        "razon_social",
-        "rfc",
-        "numero_de_cuenta",
-        "regimen_fiscal",
-        "codigo_postal",
-    )
+    proveedores = Proveedor.objects.select_related("regimen_fiscal").all()
     return render(request, "proveedores/index.html", {"proveedores": list(proveedores)})
 
 
