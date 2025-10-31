@@ -1,94 +1,45 @@
 from django import forms
-from .models import Proveedor, ContactoProveedor
+from .models import Negocio, ContactoNegocio
 from django.forms.widgets import ClearableFileInput
-from django.forms import inlineformset_factory
 
 
 class CustomClearableFileInput(ClearableFileInput):
     template_name = "forms/widgets/custom_clearable_file_input.html"
 
 
-class AddProveedorForm(forms.ModelForm):
+class addNegocioForm(forms.ModelForm):
     class Meta:
-        model = Proveedor
+        model = Negocio
         fields = [
             "nombre",
-            "razon_social",
+            "nombre_fiscal",
+            "direccion",
+            "telefono",
+            "email",
+            "logo",
             "rfc",
-            "numero_de_cuenta",
             "regimen_fiscal",
             "codigo_postal",
-            "caratula",
-            "opinion_de_cumplimiento",
-            "direccion",
         ]
         widgets = {
             "nombre": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Nombre del proveedor",
+                    "placeholder": "Nombre del negocio",
                     "autocomplete": "off",
                 }
             ),
-            "numero_de_cuenta": forms.TextInput(
+            "nombre_fiscal": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Número de cuenta",
+                    "placeholder": "Nombre fiscal",
                     "autocomplete": "off",
                 }
             ),
-            "opinion_de_cumplimiento": CustomClearableFileInput(
-                attrs={"class": "form-control"}
-            ),
-            "razon_social": forms.TextInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Razón social",
-                    "autocomplete": "off",
-                }
-            ),
-            "rfc": forms.TextInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "RFC",
-                    "autocomplete": "off",
-                }
-            ),
-            "regimen_fiscal": forms.Select(attrs={"class": "form-select"}),
             "direccion": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Dirección"}
-            ),
-            "codigo_postal": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Código postal",
-                    "autocomplete": "off",
-                }
-            ),
-            "caratula": CustomClearableFileInput(attrs={"class": "form-control"}),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["regimen_fiscal"].empty_label = "Selecciona un régimen fiscal"
-
-
-class AddContactoProveedorForm(forms.ModelForm):
-    class Meta:
-        model = ContactoProveedor
-        fields = ["nombre", "email", "telefono"]
-        widgets = {
-            "nombre": forms.TextInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Nombre del contacto",
-                    "autocomplete": "off",
-                }
-            ),
-            "email": forms.EmailInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Correo electrónico",
+                    "placeholder": "Dirección",
                     "autocomplete": "off",
                 }
             ),
@@ -99,13 +50,75 @@ class AddContactoProveedorForm(forms.ModelForm):
                     "autocomplete": "off",
                 }
             ),
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Email",
+                    "autocomplete": "off",
+                }
+            ),
+            "logo": CustomClearableFileInput(
+                attrs={"class": "form-control", "placeholder": "Logo del negocio"}
+            ),
+            "rfc": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "RFC",
+                    "autocomplete": "off",
+                }
+            ),
+            "regimen_fiscal": forms.Select(attrs={"class": "form-select"}),
+            "codigo_postal": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Código postal",
+                    "autocomplete": "off",
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["regimen_fiscal"].empty_label = "Selecciona un régimen fiscal"
+
+
+class addContactoForm(forms.ModelForm):
+    class Meta:
+        model = ContactoNegocio
+        fields = [
+            "nombre",
+            "telefono",
+            "email",
+        ]
+        widgets = {
+            "nombre": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Nombre del contacto",
+                    "autocomplete": "off",
+                }
+            ),
+            "telefono": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Teléfono",
+                    "autocomplete": "off",
+                }
+            ),
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Email",
+                    "autocomplete": "off",
+                }
+            ),
         }
 
 
-ContactoProveedorFormSet = forms.inlineformset_factory(
-    Proveedor,
-    ContactoProveedor,
-    form=AddContactoProveedorForm,
+ContactoNegocioFormSet = forms.inlineformset_factory(
+    Negocio,
+    ContactoNegocio,
+    form=addContactoForm,
     extra=1,
     can_delete=True,
 )

@@ -1,0 +1,67 @@
+{% extends "templates/layout.html" %}
+{% load static %}
+{% block title %}
+  {% if form.instance.pk %}
+    Editar Negocio
+  {% else %}
+    Añadir Negocio
+  {% endif %}
+{% endblock title %}
+{% block body %}
+  <script src="{% static 'negocio/js/add_edit.js' %}"></script>
+  <div class="container">
+    {% if form.instance.pk %}
+      <h2 class="mb-3">Editar Negocio</h2>
+    {% else %}
+      <h2 class="mb-3">Añadir Negocio</h2>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <section class="row">
+        <div class="col-12 col-lg-6 mb-3">{{ form.nombre.label_tag }} {{ form.nombre }}</div>
+        <div class="col-12 col-lg-6 mb-3">{{ form.nombre_fiscal.label_tag }} {{ form.nombre_fiscal }}</div>
+      </section>
+      <section class="row">
+        <div class="col-12 col-lg-4 mb-3">{{ form.rfc.label_tag }} {{ form.rfc }}</div>
+        <div class="col-12 col-lg-4 mb-3">{{ form.regimen_fiscal.label_tag }} {{ form.regimen_fiscal }}</div>
+        <div class="col-12 col-lg-4 mb-3">{{ form.logo.label_tag }} {{ form.logo }}</div>
+      </section>
+      <div class="row">
+        <div class="col-12 mb-3">{{ form.direccion.label_tag }} {{ form.direccion }}</div>
+      </div>
+      <section class="row">
+        <div class="col-12 col-lg-4 mb-3">{{ form.telefono.label_tag }} {{ form.telefono }}</div>
+        <div class="col-12 col-lg-4 mb-3">{{ form.email.label_tag }} {{ form.email }}</div>
+        <div class="col-12 col-lg-4 mb-3">{{ form.codigo_postal.label_tag }} {{ form.codigo_postal }}</div>
+      </section>
+      <h4>Contactos del Negocio</h4>
+      {{ formset.management_form }}
+      <div id="contContactos">
+        {% for form in formset %}
+          <div class="contacto-form">
+            <h5 class="title-contacto">Contacto #{{ forloop.counter }}</h5>
+            <div class="row">
+              <div class="col-12 col-lg-4 mb-3">{{ form.nombre.label_tag }} {{ form.nombre }}</div>
+              <div class="col-12 col-lg-4 mb-3">{{ form.email.label_tag }} {{ form.email }}</div>
+              <div class="col-12 col-lg-4 mb-3">{{ form.telefono.label_tag }} {{ form.telefono }}</div>
+              {% comment %} {% if form.instance.pk %}
+            <div class="form-check">
+              {{ form.DELETE }}
+              <label class="form-check-label" for="{{ form.DELETE.id_for_label }}">Eliminar</label>
+            </div>
+              {% endif %} {% endcomment %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <section class="mb-3 d-flex gap-2">
+        <button type="button" class="btn btn-secondary col-6" id="addContacto">Añadir Contacto</button>
+        <button type="button"
+                class="btn btn-danger col-6"
+                id="deleteContacto"
+                disabled>Borrar Contacto</button>
+      </section>
+      <button type="submit" class="btn btn-primary w-100">Guardar</button>
+    </form>
+  </div>
+{% endblock body %}

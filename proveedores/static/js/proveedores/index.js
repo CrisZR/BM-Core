@@ -1,21 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const columns = [
-        { name: "ID", id: "id", editable: false, width: 50 },
-        { name: "Nombre", id: "nombre" },
-        { name: "Razón Social", id: "razon_social" },
-        { name: "RFC", id: "rfc" },
-        { name: "No. Cuenta", id: "numero_de_cuenta" },
-        { name: "Régimen Fiscal", id: "regimen_fiscal" },
-        { name: "Código Postal", id: "codigo_postal" },
-      ];
-  
-      new DataTable("#tablaProveedores", {
-        columns: columns,
-        data: proveedores,
-        // layout: "fluid",
-        // responsive: true,
-        // sortable: true,
-        // inlineFilters: true,
-        // pagination: true,
-      });
-})
+  const dataTable = new simpleDatatables.DataTable("#myTable", {
+    searchable: true,
+    fixedHeight: true,
+    perPage: 10,
+    perPageSelect: [5, 10, 15, 20, 25, 50, 100],
+    sortable: false,
+    labels: {
+      placeholder: "Buscar...",
+      perPage: " registros por página",
+      noRows: "No se encontraron registros",
+      info: "Mostrando {start} a {end} de {rows} registros",
+    },
+  });
+});

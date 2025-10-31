@@ -60,6 +60,10 @@
   --bs-info: #54caf5;
   --bs-warning: #ff9800;
   --bs-danger: #f50208;
+  --bs-link-color-rgb: 159, 166, 255;
+  --bs-link-hover-color-rgb: 203, 208, 255;
+  --bs-link-color: #9fa6ff;
+  --bs-link-hover-color: #cbd0ff;
 
   /* UI nativa (scrollbars, selects…) */
   color-scheme: dark;
@@ -94,6 +98,11 @@ html.light {
   --bs-secondary-bg: #e8ecee;
   --bs-tertiary-bg: #e5e9ff;
 
+  --bs-link-color-rgb: 0, 0, 238;
+  --bs-link-color: #0000ee;
+  --bs-link-hover-color-rgb: 55, 55, 160;
+  --bs-link-hover-color: #3737a0;
+
   color-scheme: light;
   color: var(--c-text);
 }
@@ -127,6 +136,7 @@ body {
   flex: 1;
   padding: 2rem 1rem;
   margin: 0 1rem;
+  width: 100dvh;
 }
 
 .header-nav {

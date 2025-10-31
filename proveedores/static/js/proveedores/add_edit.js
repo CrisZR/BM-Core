@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const divContactos = document.getElementById("contContactos")
     const totalForms = document.getElementById("id_contactos-TOTAL_FORMS")
 
+    if(contactosIniciales) {
+      totalForms.value = contactosIniciales
+    }
+
     addButton.addEventListener("click", () => {
         let formCount = parseInt(totalForms.value)
         const firstForm = divContactos.querySelector(".contacto-form");

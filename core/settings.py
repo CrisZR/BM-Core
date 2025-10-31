@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "livereload",
     "crispy_forms",
     "crispy_bootstrap5",
+    "corsheaders",
     "home",
     "navigation",
     "inventory",
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.LoginRequiredMiddleware",  # Custom middleware to enforce login
@@ -145,6 +147,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
