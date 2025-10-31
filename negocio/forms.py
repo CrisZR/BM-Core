@@ -4,7 +4,7 @@ from django.forms.widgets import ClearableFileInput
 
 
 class CustomClearableFileInput(ClearableFileInput):
-    template_name = "widgets/custom_clearable_file_input.html"
+    template_name = "forms/widgets/custom_clearable_file_input.html"
 
 
 class addNegocioForm(forms.ModelForm):
@@ -57,7 +57,7 @@ class addNegocioForm(forms.ModelForm):
                     "autocomplete": "off",
                 }
             ),
-            "logo": forms.ClearableFileInput(
+            "logo": CustomClearableFileInput(
                 attrs={"class": "form-control", "placeholder": "Logo del negocio"}
             ),
             "rfc": forms.TextInput(
