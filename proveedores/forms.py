@@ -68,6 +68,10 @@ class AddProveedorForm(forms.ModelForm):
             "caratula": CustomClearableFileInput(attrs={"class": "form-control"}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["regimen_fiscal"].empty_label = "Selecciona un régimen fiscal"
+
 
 class AddContactoProveedorForm(forms.ModelForm):
     class Meta:
