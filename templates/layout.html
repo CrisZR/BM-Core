@@ -4,7 +4,10 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>BM-Core - {% block title %}{% endblock title %}</title>
+    <title>BM-Core -
+      {% block title %}
+      {% endblock title %}
+    </title>
     <meta name="description"
           content="BM-Core Dashboard para gestión y administración." />
     <meta name="keywords"
@@ -12,10 +15,9 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/app.css' %}" />
     <script src="{% static 'js/sidebar.js' %}"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
-    />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.svg' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
@@ -95,9 +97,13 @@
       <main id="content" class="content">
         {% if messages %}
           {% for message in messages %}
-            <section class="alert alert-dismissible alert-{{ message.tags }} fade show" role="alert">
+            <section class="alert alert-dismissible alert-{{ message.tags }} fade show"
+                     role="alert">
               {{ message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="alert"
+                      aria-label="Close"></button>
             </section>
           {% endfor %}
         {% endif %}
