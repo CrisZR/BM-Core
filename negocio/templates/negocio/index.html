@@ -1,0 +1,46 @@
+{% extends "templates/layout.html" %}
+{% load static %}
+{% block title %}
+  Listado de Negocios
+{% endblock title %}
+{% block body %}
+  <script src="{% static 'negocio/js/index.js' %}"></script>
+  <div class="container">
+    <h2 class="mb-3">Listado de Negocios</h2>
+    <a href="{% url 'negocio:add' %}" class="btn btn-primary mb-3">Añadir Negocio</a>
+    <table id="tableNegocios" class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Nombre Fiscal</th>
+          <th>RFC</th>
+          <th>Regimen Fiscal</th>
+          <th>Direccion</th>
+          <th>Telefono</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for negocio in negocios %}
+          <tr>
+            <td>{{ negocio.nombre }}</td>
+            <td>{{ negocio.nombre_fiscal }}</td>
+            <td>{{ negocio.rfc }}</td>
+            <td>{{ negocio.regimen_fiscal }}</td>
+            <td>{{ negocio.direccion }}</td>
+            <td>{{ negocio.telefono }}</td>
+            <td>{{ negocio.email }}</td>
+            <td>
+              <a href="{% url 'negocio:edit' negocio.pk %}" class="btn btn-link"><i class="fa fa-solid fa-pencil"></i></a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5">No hay negocios registrados.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock body %}
