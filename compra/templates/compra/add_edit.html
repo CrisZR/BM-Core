@@ -1,0 +1,46 @@
+{% extends "templates/layout.html" %}
+{% block title %}
+  {% if form.instance.pk %}
+    Editar
+  {% else %}
+    Crear
+  {% endif %}
+  Orden de Compra
+{% endblock title %}
+{% block body %}
+  <h2>
+    {% if form.instance.pk %}
+      Editar
+    {% else %}
+      Crear
+    {% endif %}
+    Orden de Compra
+  </h2>
+  <form method="post">
+    {% csrf_token %}
+    <section class="row">
+      <div class="col-12 col-lg-6 mb-3">
+        {{ form.numero_de_orden.label_tag }}
+        {{ form.numero_de_orden }}
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        {{ form.proveedor.label_tag }}
+        {{ form.proveedor }}
+      </div>
+      <div class="col-lg-6 col-12 mb-3">
+        {{ form.negocio.label_tag }}
+        {{ form.negocio }}
+      </div>
+    </section>
+    {% comment %} {{ form.as_p }} {% endcomment %}
+    {% comment %} {{ formset.management_form }} {% endcomment %}
+    {% comment %} {% for form in formset %}{{ form.as_p }}{% endfor %} {% endcomment %}
+    <button type="submit" class="btn btn-primary">
+      {% if form.instance.pk %}
+        Actualizar
+      {% else %}
+        Crear
+      {% endif %}
+    </button>
+  </form>
+{% endblock body %}
