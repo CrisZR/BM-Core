@@ -34,7 +34,12 @@
                             <td>{{ proveedor.regimen_fiscal }}</td>
                             <td>{{ proveedor.codigo_postal }}</td>
                             <td>
-                                <a href="{% url 'proveedores:edit' proveedor.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'proveedores:edit' proveedor.id %}"
+                                       title="Editar Proveedor"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="{% url 'proveedores:asignar_productos' proveedor.id %}"
+                                       title="Asignar Productos"><i class="fa-solid fa-plus-minus"></i></a>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}

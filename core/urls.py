@@ -15,6 +15,7 @@ urlpatterns = [
         include(("proveedores.urls", "proveedores"), namespace="proveedores"),
     ),
     path("negocios/", include(("negocio.urls", "negocio"), namespace="negocio")),
+    path("compras/", include(("compra.urls", "compra"), namespace="compra")),
 ]
 
 if settings.DEBUG:

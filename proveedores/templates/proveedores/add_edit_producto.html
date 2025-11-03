@@ -1,0 +1,39 @@
+{% extends "templates/layout.html" %}
+{% block title %}
+  {% if form.intance.pk %}
+    Editar Productos
+  {% else %}
+    Asignar Productos
+  {% endif %}
+{% endblock title %}
+{% block body %}
+  <div class="container">
+    <h2>Asignar Productos al Proveedor {{ proveedor.nombre }}</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ formset.management_form }}
+      <section id="contProductos" class="row">
+        {% for form in formset %}
+          {{ form.id }}
+          <h5>Producto {{ forloop.counter }}</h5>
+          <div class="col-12 col-lg-6 mb-3">{{ form.producto.label_tag }} {{ form.producto }}</div>
+          <div class="col-12 col-lg-6 mb-3">{{ form.precio.label_tag }} {{ form.precio }}</div>
+        {% endfor %}
+      </section>
+      <section class="mb-3 row">
+        <div class="col-12 col-lg-6">
+          <button type="button" class="btn btn-secondary w-100" id="addProducto">Añadir Producto</button>
+        </div>
+        <div class="col-12 col-lg-6">
+          <button type="button"
+                  class="btn btn-danger w-100"
+                  id="deleteProducto"
+                  disabled>Borrar Producto</button>
+        </section>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary w-100">Asignar Productos</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock body %}

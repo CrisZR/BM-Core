@@ -1,5 +1,5 @@
 from django import forms
-from .models import Proveedor, ContactoProveedor
+from .models import Proveedor, ContactoProveedor, ProductosProveedor
 from django.forms.widgets import ClearableFileInput
 from django.forms import inlineformset_factory
 
@@ -108,4 +108,33 @@ ContactoProveedorFormSet = forms.inlineformset_factory(
     form=AddContactoProveedorForm,
     extra=1,
     can_delete=True,
+)
+
+
+class AddProductoProveedorForm(forms.ModelForm):
+    class Meta:
+        model = ProductosProveedor
+        fields = ["producto", "precio"]
+        widgets = {
+            "producto": forms.Select(attrs={"class": "form-select"}),
+            "precio": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Precio del producto",
+                    "autocomplete": "off",
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["producto"].empty_label = "Selecciona un producto"
+
+
+ProductoProveedorFormSet = forms.inlineformset_factory(
+    Proveedor,
+    ProductosProveedor,
+    form=AddProductoProveedorForm,
+    extra=1,
+    # can_delete=True,
 )

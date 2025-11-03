@@ -318,3 +318,20 @@ class Registro_Negocio_Inventario(models.Model):
 
     def __str__(self):
         return f"Registro de {self.negocio_inventario.negocio.nombre} - {self.cantidad_nueva}"
+
+
+class motivo_movimiento(models.Model):
+    nombre = models.CharField(
+        verbose_name="Nombre del Motivo", max_length=100, unique=True
+    )
+    descripcion = models.TextField(
+        verbose_name="Descripcion", blank=True, null=True, max_length=255
+    )
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+
+    class Meta:
+        verbose_name = "Motivo de Movimiento"
+        verbose_name_plural = "Motivos de Movimiento"
+
+    def __str__(self):
+        return self.nombre
