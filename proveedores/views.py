@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .forms import AddProveedorForm, ContactoProveedorFormSet
+from .forms import AddProveedorForm, ContactoProveedorFormSet, ProductoProveedorFormSet
 from .models import Proveedor
 from django.db import transaction
 from django.contrib import messages
@@ -89,4 +89,50 @@ def edit(request, pk):
             "proveedor": proveedor,
             "contactos_iniciales": contactos_iniciales,
         },
+    )
+
+
+def add_edit_producto(request, pk):
+    proveedor = Proveedor.objects.get(pk=pk)  # Verificar que el proveedor existe
+    formset = ProductoProveedorFormSet(instance=proveedor)
+    productos_asignados = proveedor.productos.all()
+
+    if request.method == "POST":
+        formset = ProductoProveedorFormSet(request.POST, instance=proveedor)
+        if not formset.is_valid():
+            print(
+                "MGMT ERR:",
+                getattr(formset, "management_form", None)
+                and formset.management_form.errors,
+            )
+            print("NON_FORM:", formset.non_form_errors())
+            for i, f in enumerate(formset.forms):
+                print(f"Form {i} errors:", f.errors)
+        if formset.is_valid():
+            try:
+                with transaction.atomic():
+                    productos = formset.save(commit=False)
+                    for producto in productos:
+                        # producto.proveedor = proveedor
+                        if not producto.pk:
+                            producto.usuario_creo = request.user
+                        else:
+                            producto.usuario_modifico = request.user
+                        producto.save()
+
+                    messages.success(
+                        request, "Productos del proveedor actualizados correctamente"
+                    )
+                    return redirect("proveedores:index")
+            except Exception as e:
+                messages.error(
+                    request,
+                    f"Ha habido un problema al actualizar los productos del proveedor: {e}",
+                )
+        else:
+            messages.error(request, "Hubo un problema al enviar el formulario.")
+    return render(
+        request,
+        "proveedores/add_edit_producto.html",
+        {"formset": formset, "productos": productos_asignados, "proveedor": proveedor},
     )
