@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+# from inventory.models import Producto
+
 
 # Create your models here.
 class Proveedor(models.Model):
@@ -128,3 +130,49 @@ class RegimenFiscal(models.Model):
 
     def __str__(self):
         return f"{self.codigo} - {self.descripcion}"
+
+
+class ProductosProveedor(models.Model):
+    proveedor = models.ForeignKey(
+        Proveedor,
+        on_delete=models.CASCADE,
+        related_name="productos",
+        verbose_name="Proveedor",
+    )
+    producto = models.ForeignKey(
+        "inventory.Producto",
+        on_delete=models.CASCADE,
+        related_name="productos",
+        verbose_name="Producto",
+    )
+    precio = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=False, null=False, verbose_name="Precio"
+    )
+    usuario_creo = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="productos_proveedor_creados",
+        verbose_name="Usuario creó",
+    )
+    usuario_modifico = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="productos_proveedor_modificados",
+        verbose_name="Usuario modificó",
+    )
+    fecha_creado = models.DateTimeField(
+        auto_now_add=True, verbose_name="Fecha de creación"
+    )
+    fecha_modificado = models.DateTimeField(
+        auto_now=True, verbose_name="Fecha de modificación"
+    )
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+
+    class Meta:
+        verbose_name = "Producto Proveedor"
+        verbose_name_plural = "Productos Proveedores"
+
+    def __str__(self):
+        return f"{self.producto.nombre} - {self.proveedor.razon_social}"
