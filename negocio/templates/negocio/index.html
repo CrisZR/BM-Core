@@ -33,6 +33,8 @@
             <td>{{ negocio.email }}</td>
             <td>
               <a href="{% url 'negocio:edit' negocio.pk %}" class="btn btn-link"><i class="fa fa-solid fa-pencil"></i></a>
+              <a href="{% url 'negocio:view_inventario' negocio.pk %}"
+                 class="btn btn-link"><i class="fa fa-solid fa-box-open"></i></a>
             </td>
           </tr>
         {% empty %}
