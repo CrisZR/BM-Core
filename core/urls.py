@@ -16,6 +16,10 @@ urlpatterns = [
     ),
     path("negocios/", include(("negocio.urls", "negocio"), namespace="negocio")),
     path("compras/", include(("compra.urls", "compra"), namespace="compra")),
+    path(
+        "navigation/",
+        include(("navigation.urls", "navigation"), namespace="navigation"),
+    ),
 ]
 
 if settings.DEBUG:
