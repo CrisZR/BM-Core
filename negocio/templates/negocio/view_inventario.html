@@ -1,0 +1,35 @@
+{% extends "templates/layout.html" %}
+{% load static %}
+{% block title %}
+  Lista de Invetario por Negocio
+{% endblock title %}
+{% block body %}
+  <div class="container">
+    <h2 class="mb-4">Inventario del Negocio: {{ negocio.nombre }}</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nombre del Producto</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in inventario %}
+          <tr>
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.producto.nombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>{{ item.producto.precio }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4" class="text-center">No hay productos en el inventario.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{% url 'negocio:index' %}" class="btn btn-primary mt-3">Volver a la Lista de Negocios</a>
+  </div>
+{% endblock body %}
