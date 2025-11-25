@@ -4,7 +4,6 @@ from django.core.validators import MinValueValidator
 from django.templatetags.static import static
 
 from categorias.models import Categoria
-from negocio.models import Negocio
 
 # Create your models here.
 # class Supplier(models.Model):
@@ -138,7 +137,11 @@ class Inventario_Producto(models.Model):
         verbose_name="Modificado Por",
     )
     negocio = models.ForeignKey(
-        Negocio, verbose_name="Negocio", on_delete=models.CASCADE, null=True, blank=True
+        "negocio.Negocio",
+        verbose_name="Negocio",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
 
     class Meta:
@@ -197,6 +200,9 @@ class Registro_Inventario(models.Model):
     comentarios = models.TextField(
         verbose_name="Comentarios", blank=True, null=True, max_length=255
     )
+    orden_compra = models.ForeignKey(
+        "compra.OrdenDeCompra", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     class Meta:
         """Meta definition for Registro_Inventario."""
@@ -245,8 +251,19 @@ class Medidas_Inventario(models.Model):
 
 
 class Negocio_Inventario(models.Model):
-    negocio = models.OneToOneField(
-        Negocio, verbose_name="Negocio", on_delete=models.CASCADE
+    negocio = models.ForeignKey(
+        "negocio.Negocio",
+        verbose_name="Negocio",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    producto = models.ForeignKey(
+        "inventory.Producto",
+        on_delete=models.CASCADE,
+        verbose_name="Producto",
+        null=True,
+        blank=True,
     )
     cantidad = models.FloatField(
         verbose_name="Cantidad en Inventario",
