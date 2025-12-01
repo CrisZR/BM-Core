@@ -4,7 +4,6 @@ from django.core.validators import MinValueValidator
 from django.templatetags.static import static
 
 from categorias.models import Categoria
-from negocio.models import Negocio
 
 # Create your models here.
 # class Supplier(models.Model):
@@ -138,7 +137,11 @@ class Inventario_Producto(models.Model):
         verbose_name="Modificado Por",
     )
     negocio = models.ForeignKey(
-        Negocio, verbose_name="Negocio", on_delete=models.CASCADE, null=True, blank=True
+        "negocio.Negocio",
+        verbose_name="Negocio",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
 
     class Meta:
@@ -197,6 +200,9 @@ class Registro_Inventario(models.Model):
     comentarios = models.TextField(
         verbose_name="Comentarios", blank=True, null=True, max_length=255
     )
+    orden_compra = models.ForeignKey(
+        "compra.OrdenDeCompra", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     class Meta:
         """Meta definition for Registro_Inventario."""
@@ -245,8 +251,19 @@ class Medidas_Inventario(models.Model):
 
 
 class Negocio_Inventario(models.Model):
-    negocio = models.OneToOneField(
-        Negocio, verbose_name="Negocio", on_delete=models.CASCADE
+    negocio = models.ForeignKey(
+        "negocio.Negocio",
+        verbose_name="Negocio",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    producto = models.ForeignKey(
+        "inventory.Producto",
+        on_delete=models.CASCADE,
+        verbose_name="Producto",
+        null=True,
+        blank=True,
     )
     cantidad = models.FloatField(
         verbose_name="Cantidad en Inventario",
@@ -318,3 +335,20 @@ class Registro_Negocio_Inventario(models.Model):
 
     def __str__(self):
         return f"Registro de {self.negocio_inventario.negocio.nombre} - {self.cantidad_nueva}"
+
+
+class motivo_movimiento(models.Model):
+    nombre = models.CharField(
+        verbose_name="Nombre del Motivo", max_length=100, unique=True
+    )
+    descripcion = models.TextField(
+        verbose_name="Descripcion", blank=True, null=True, max_length=255
+    )
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+
+    class Meta:
+        verbose_name = "Motivo de Movimiento"
+        verbose_name_plural = "Motivos de Movimiento"
+
+    def __str__(self):
+        return self.nombre

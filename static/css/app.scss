@@ -136,7 +136,7 @@ body {
   flex: 1;
   padding: 2rem 1rem;
   margin: 0 1rem;
-  width: 100dvh;
+  // width: 100dvh;
 }
 
 .header-nav {
@@ -183,6 +183,7 @@ body {
 
 .sub-link {
   color: var(--c-sub-link);
+  padding: 0.5rem 0.5rem;
 }
 
 .nav-link {
@@ -311,6 +312,11 @@ body,
   left: 0;
   right: 0;
   justify-content: space-around;
+}
+
+.link-mobile-nav {
+  color: var(--c-text);
+  text-decoration: none;
 }
 
 // Estilos responsivos

@@ -1,0 +1,35 @@
+{% extends "templates/layout.html" %}
+{% load safe_url %}
+{% block title %}
+  Navegador
+{% endblock title %}
+{% block body %}
+  {% for menu in menus %}
+    {% if menu.children.all %}
+      <details open>
+        <summary class="nav-link">
+          <i class="fa-solid fa-{{ menu.icono }}"></i>
+          {{ menu.nombre }}
+          <i class="fa-solid fa-chevron-right arrow"></i>
+        </summary>
+        <ul class="submenu">
+          {% for sub in menu.children.all %}
+            <li>
+              <a href="{{ sub.url|safe_url }}"
+                 class="sub-link nav-link {% if current_url == sub.url %}active{% endif %}">
+                <i class="fa-solid fa-{{ sub.icono }}"></i>
+                {{ sub.nombre }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% else %}
+      <a href="{{ menu.url|safe_url }}"
+         class="nav-link {% if current_url == menu.url %}active{% endif %}">
+        <i class="fa-solid fa-{{ menu.icono }}"></i>
+        {{ menu.nombre }}
+      </a>
+    {% endif %}
+  {% endfor %}
+{% endblock body %}

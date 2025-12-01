@@ -18,6 +18,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
     <link rel="icon" type="image/png" href="{% static 'img/favicon.svg' %}">
+    <script src="{% static 'js/app.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
@@ -78,12 +79,11 @@
             <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
             <span title="Ver Notificaciones"><i class="fa-solid fa-bell"></i></span>
             <span id="theme-toggle" class="theme-toggle" title="Cambiar tema"><i class="fa-solid fa-circle-half-stroke"></i></span>
-            <form action="{% url 'accounts:logout' %}" method="post">
-              {% csrf_token %}
-              <button type="submit" class="logout-button" title="Cerrar sesión">
-                <i class="fa-solid fa-right-from-bracket"></i>
-              </button>
-            </form>
+            <button class="logout-button" title="Cerrar sesión">
+              <i class="fa-solid fa-right-from-bracket"
+                 data-bs-toggle="modal"
+                 data-bs-target="#closeSessionModal"></i>
+            </button>
           </section>
         </section>
       </nav>
@@ -112,14 +112,18 @@
       </main>
       <div id="footerMobile" class="navi-options-mobile">
         <section class="btn-nav-mobile">
-          <i class="fa-solid fa-home"></i>
+          <a href="{% url 'home:index' %}" class="link-mobile-nav">
+            <i class="fa-solid fa-home"></i>
+          </a>
         </section>
         <section class="btn-nav-mobile">
-          <i class="fa-solid fa-bars"></i>
+          <a href="{% url 'navigation:index' %}">
+            <i class="fa-solid fa-bars"></i>
+          </a>
         </section>
-        <section class="btn-nav-mobile">
+        {% comment %} <section class="btn-nav-mobile">
           <i class="fa-solid fa-bell"></i>
-        </section>
+        </section> {% endcomment %}
         <section class="btn-nav-mobile">
           <i class="fa-solid fa-circle-user"></i>
         </section>
@@ -134,6 +138,23 @@
           <div class="modal-body">Se ha cerrado tu sesion por inactividad.</div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="location.reload()">Continuar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="closeSessionModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Cerrar sesion</h5>
+          </div>
+          <div class="modal-body">¿Estás seguro de que deseas cerrar sesión?</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <form action="{% url 'accounts:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+            </form>
           </div>
         </div>
       </div>

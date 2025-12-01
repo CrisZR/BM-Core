@@ -1,0 +1,97 @@
+{% extends "templates/layout.html" %}
+{% load static %}
+{% block title %}
+  {% if form.instance.pk %}
+    Editar
+  {% else %}
+    Crear
+  {% endif %}
+  Orden de Compra
+{% endblock title %}
+{% block body %}
+  <script src="{% static 'compra/js/add_edit.js' %}"></script>
+  <script>
+    const findProductosUrl = "{% url 'compra:findProductos' %}";
+    const findNegocioRFCUrl = "{% url 'compra:findNegocioRFC' %}";
+  </script>
+  <h2>
+    {% if form.instance.pk %}
+      Editar
+    {% else %}
+      Crear
+    {% endif %}
+    Orden de Compra
+  </h2>
+  <form method="post">
+    {% csrf_token %}
+    <section class="row">
+      <div class="col-12 col-lg-4 mb-3">
+        {{ form.numero_de_orden.label_tag }}
+        {{ form.numero_de_orden }}
+      </div>
+      <div class="col-md-4 col-12 mb-3">
+        {{ form.proveedor.label_tag }}
+        {{ form.proveedor }}
+      </div>
+      <div class="col-lg-4 col-12 mb-3">
+        {{ form.negocio.label_tag }}
+        {{ form.negocio }}
+      </div>
+    </section>
+    <h4>Productos</h4>
+    <div id="productos-section" class="mb-3">
+      <table class="table table-bordered" id="productos-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="productos-body">
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-success" id="addProductoBtn" disabled>+ Agregar producto</button>
+    </div>
+    <!-- Campo oculto donde guardaremos el JSON -->
+    <input type="hidden"
+           name="lastId"
+           id="lastId"
+           value="{{ lastOrdenId.id|default:0 }}">
+    <input type="hidden" name="productos_json" id="productos-json">
+    <template id="producto-template">
+      <tr>
+        <td>
+          <select class="form-select producto-select">
+            <option value="">-- Seleccionar --</option>
+          </select>
+        </td>
+        <td>
+          <input type="number" class="form-control precio" step="0.01" readonly>
+        </td>
+        <td>
+          <input type="number" class="form-control cantidad" min="1" value="1">
+        </td>
+        <td>
+          <input type="text" class="form-control subtotal" readonly>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger btn-sm eliminar">x</button>
+        </td>
+      </tr>
+    </template>
+    <div class="row">
+      <div class="col-lg-3 offset-lg-6 col-12 mt-3">
+        {{ form.subtotal.label_tag }}
+        {{ form.subtotal }}
+      </div>
+      <div class="col-lg-3  col-12 mt-3">
+        {{ form.total.label_tag }}
+        {{ form.total }}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar orden</button>
+  </form>
+{% endblock body %}

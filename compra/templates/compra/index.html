@@ -1,0 +1,45 @@
+{% extends "templates/layout.html" %}
+{% load static %}
+{% block title %}
+  Ver Ordenes de Compra
+{% endblock title %}
+{% block body %}
+  <script src="{% static 'compra/js/index.js' %}"></script>
+  <h2>Órdenes de Compra</h2>
+  <a href="{% url 'compra:add' %}" class="btn btn-primary mb-3">Nueva Orden de Compra</a>
+  <table class="table table-bordered" id="ordenes-compra-table">
+    <thead>
+      <tr>
+        <th>Número de Orden</th>
+        <th>Proveedor</th>
+        <th>Negocio</th>
+        <th>Fecha de Creación</th>
+        <th>Total</th>
+        <th>Estatus</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for orden in ordenes %}
+        <tr>
+          <td>{{ orden.numero_de_orden }}</td>
+          <td>{{ orden.proveedor.nombre }}</td>
+          <td>{{ orden.negocio.nombre }}</td>
+          <td>{{ orden.fecha_creado|date:"d/m/Y H:i" }}</td>
+          <td>{{ orden.estatus }}</td>
+          <td>{{ orden.total }}</td>
+          <td>
+            <a href="{% url 'compra:view' orden.id %}" class="btn btn-info btn-sm">Ver</a>
+            {% if orden.estatus == 'pendiente' %}
+              {% comment %} <a href="{% url 'compra:edit' orden.id %}" class="btn btn-warning btn-sm">Editar</a> {% endcomment %}
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">No hay órdenes de compra disponibles.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock body %}
